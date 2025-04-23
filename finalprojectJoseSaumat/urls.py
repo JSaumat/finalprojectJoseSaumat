@@ -28,4 +28,7 @@ urlpatterns = [
     # App level URLs from the movies/urls.py file.
     path('', include('movies.urls')),
 
+    #App level URLSs from the forum/urls.py file.
+    path("forum/", include("forum.urls", namespace="forum")),
+
 ]
