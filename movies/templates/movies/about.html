@@ -1,0 +1,45 @@
+{% extends 'movies/base.html' %}
+
+{% load static %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+
+<div class="text-center mt-5">
+
+    <h1 class="mb-3">About MovieVote 🎬</h1>
+
+    <p class="lead">
+        Welcome to MovieVote! MovieVote is a community-powered app where users can vote for their favorite movies. More functionality will be added later.
+    </p>
+
+    <p>
+        Admins can search for and import new movies using the TMDB API, while users can vote and engage with the gallery.
+    </p>
+
+    <p>Special thanks to TMDB for allowing me to use their API for free. Be sure to check out their site in the link below by clicking their logo.</p><br><br>
+
+
+    <hr class="my-5">
+
+    <!-- TMDB logo with link -->
+    <div class="text-center">
+
+      <p class="mb-2">This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+
+      <a href="https://www.themoviedb.org/" target="_blank" rel="noopener">
+
+        <img src="{% static 'images/tmdb_logo.svg' %}" alt="TMDB Logo" style="max-height: 80px;">
+
+      </a>
+
+    </div>
+
+    <p class="text-muted mt-4">
+        Created by <strong>Sam</strong> — for learning, fun, and a love of film.
+    </p>
+
+</div>
+
+{% endblock %}

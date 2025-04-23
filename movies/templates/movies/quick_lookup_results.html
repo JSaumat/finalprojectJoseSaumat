@@ -1,0 +1,52 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}Quick Lookup{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4 text-center">
+
+  <h2 class="mb-4">TMDB Results for "{{ query }}"</h2>
+
+  <!-- Displays results of the quick look up -->
+  {% if results %}
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+
+      {% for movie in results %}
+
+        <div class="col">
+
+          <div class="card h-100">
+
+            {% if movie.poster_path %}
+
+              <img src="https://image.tmdb.org/t/p/w342{{ movie.poster_path }}" class="card-img-top" alt="{{ movie.title }}">
+
+            {% endif %}
+
+            <div class="card-body">
+
+              <h5 class="card-title">{{ movie.title }}</h5>
+
+              <p class="card-text">{{ movie.release_date }}</p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      {% endfor %}
+
+    </div>
+
+  {% else %}
+
+    <p class="text-muted">No results found.</p>
+
+  {% endif %}
+
+</div>
+
+{% endblock %}

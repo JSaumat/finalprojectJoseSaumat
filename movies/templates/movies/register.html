@@ -1,0 +1,35 @@
+{% extends 'movies/base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-6">
+
+        <h2 class="mb-4">Register</h2>
+
+        <!-- Registration form -->
+        <form method="post">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-primary">Register</button>
+
+        </form>
+
+        <!-- Link to login page if already registered -->
+        <p class="mt-3">Already have an account?
+
+            <a href="{% url 'movies:login' %}">Log in here</a>.
+
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}

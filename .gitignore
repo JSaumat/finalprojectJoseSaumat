@@ -1,0 +1,28 @@
+# Ignore environment files
+#.env
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# SQLite database
+ db.sqlite3
+
+# Django migrations
+**/migrations/*.py
+!**/migrations/__init__.py
+
+# IDE/editor settings
+.idea/
+.vscode/
+
+# Static files collected for deployment
+staticfiles/
+
+# Python virtual environments
+venv/
+.venv/
+
+# Ignores the original tutorial files in the polls folder
+polls/

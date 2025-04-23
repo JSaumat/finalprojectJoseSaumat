@@ -1,0 +1,18 @@
+{% extends "movies/base.html" %}
+
+{% block title %}Access Denied{% endblock %}
+
+{% block content %}
+
+<div class="text-center mt-5">
+
+  <!-- Access denied page if not an authorized user -->
+  <h1 class="display-4 text-danger">403 - Access Denied</h1>
+
+  <p class="lead mt-3">You do not have permission to view this page.</p>
+
+  <a href="{% url 'movies:index' %}" class="btn btn-outline-primary mt-3">Return to Home</a>
+
+</div>
+
+{% endblock %}

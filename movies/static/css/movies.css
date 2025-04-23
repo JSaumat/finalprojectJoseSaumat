@@ -1,0 +1,132 @@
+/* movies.css */
+
+/* Set the default background color for the entire site */
+body {
+    background-color: #f8f9fa;
+}
+
+/* Movie card hover effect */
+.card:hover {
+    transform: scale(1.03); /* gently enlarge on hover */
+    transition: 0.3s ease; /* smooth transition */
+    box-shadow: 0 0 20px rgba(0,0,0,0.2); /* glow effect */
+}
+
+/* Title styling */
+.card-title {
+    font-weight: bold; /* makes the movie title pop */
+}
+
+/* Vote button */
+.vote-btn {
+    margin-top: 10px;
+    width: 75%; /* or 60% for a tighter look */
+}
+
+/* Movie card container styling */
+/* Prevent scaling from breaking layout */
+/* Scale hover effect but keep it inside the grid column */
+.movie-card {
+    transition: transform 0.3s ease;
+    will-change: transform; /* hint browser to prep for animation */
+    overflow: hidden;
+    border-radius: 10px; /* rounded corners */
+    padding: 5px;        /* space inside the card */
+    background-color: #ffffff; /* white card background */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+    min-height: 620px; /* forces visual height consistency */
+}
+
+/* Movie card container styling for hover */
+.movie-card:hover {
+    transform: scale(1.02); /* hover zoom slightly */
+    z-index: 1; /* ensure it appears above others */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* soft hover shadow */
+}
+
+/* Movie poster styling */
+/* Keep poster size consistent */
+.card-img-top {
+    max-height: 500px; /* don't let posters stretch too tall */
+    object-fit: contain; /* preserve image shape inside container */
+    width: 100%; /* fill the card width */
+    height: auto;
+    margin: 0 auto; /* center horizontally */
+    display: block;
+}
+
+/* Align card body content */
+.movie-card .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* center all content */
+    text-align: center;
+    flex-grow: 1;
+    justify-content: space-between;
+    padding: 1rem;
+
+}
+
+/* Custom navigation bar setup could use later for a dark theme toggle*/
+/*.custom-navbar {*/
+/*    background: linear-gradient(to right, #0d6efd, #0b5ed7);*/
+/*    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);*/
+/*}*/
+
+/* Navigation link styling */
+.navbar-nav .nav-link {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+/* Navigation link styling for hover */
+.navbar-nav .nav-link:hover {
+    color: #ffc107; /* gold on hover */
+}
+
+/* Navigation link styling for active link*/
+.navbar-nav .nav-link.active {
+    font-weight: bold;
+    color: #fff; /* white when active */
+    border-bottom: 2px solid #ffc107; /* gold underline */
+}
+
+/* Navigation base, branding, and buttons */
+/* Clean modern navbar styles for light theme */
+.navbar {
+    font-size: 1rem; /* readable sizing */
+}
+
+/* Navigation base, branding, and buttons for link */
+.navbar .nav-link {
+    font-weight: 500;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    transition: color 0.3s ease;
+}
+
+/* Navigation base, branding, and buttons for hover*/
+.navbar .nav-link:hover {
+    color: #0d6efd; /* Bootstrap primary color blue */
+}
+
+/* Navigation base, and branding */
+.navbar-brand {
+    font-family: 'Segoe UI', sans-serif; /* modern look */
+    letter-spacing: 1px;
+}
+
+/* Navigation base, and buttons */
+.navbar .btn {
+    padding: 6px 14px;
+    font-weight: 500;
+}
+    /* Navigation base, branding, and buttons alignment */
+.navbar-nav .nav-item {
+    margin-bottom: 0 !important; /* ensure items align horizontally */
+}
