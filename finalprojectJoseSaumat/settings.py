@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'movies',
+    'forum',
 ]
 
 # Handles all the incoming HTTP requests and responses
