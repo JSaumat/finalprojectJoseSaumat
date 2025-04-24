@@ -1,10 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "movies/base.html" %}
 
-</body>
-</html>
+{% block title %}Sam's Movie Blog : Home{% endblock %}
+
+{% block content %}
+<p>
+  Welcome! Check out the trailers of my top&nbsp;10 favorite movies!
+  If you’ve seen these movies—or plan to—let me know.<br>
+  Use the navigation bar above to view blog posts or register and log in to
+  interact with the community.
+</p>
+
+<div class="center-title">
+  <h2>Sam's Top&nbsp;10 Favorite Movies</h2>
+</div>
+
+<div class="movie-grid">
+  {% for title, link, image in movies %}
+    <a href="{{ link }}" target="_blank" class="movie-tile">
+      {% if image %}
+        <img src="{{ image }}" alt="{{ title }}">
+      {% else %}
+        <div class="no-image">No Image Available</div>
+      {% endif %}
+      <p>{{ title }}</p>
+    </a>
+  {% endfor %}
+</div>
+{% endblock %}

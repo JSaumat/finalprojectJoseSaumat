@@ -49,19 +49,34 @@
       <!-- Link to the home page -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-        <li class="nav-item">
+      <li class="nav-item">
+        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+        href="{% url 'movies:home' %}">
+        Home
+        </a>
+      </li>
 
-          <!-- Highlights Home when you are on that page -->
-          <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'movies:index' %}">
-            Home
-          </a>
-
-        </li>
+      <!-- Old Home page -->
+{#        <li class="nav-item">#}
+{##}
+{#          <!-- Highlights Home when you are on that page -->#}
+{#          <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'movies:index' %}">#}
+{#            Home#}
+{#          </a>#}
+{##}
+{#        </li>#}
 
       <li class="nav-item">
           <a class="nav-link {% if request.path == '/about/' %}active{% endif %}" href="{% url 'movies:about' %}">
             About
           </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}"
+        href="{% url 'movies:index' %}">
+        Movie Voting
+        </a>
       </li>
 
       <li class="nav-item">

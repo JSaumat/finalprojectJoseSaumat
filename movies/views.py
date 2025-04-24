@@ -251,3 +251,14 @@ def quick_lookup(request):
         "query": query
 
     })
+
+def home(request):
+    movies = [
+        # title, trailer URL, poster URL  (replace with your data)
+        ("The Dark Knight", "https://youtu.be/EXeTwQWrcwY",
+         "https://image.tmdb.org/t/p/w342/qJ2tW6WMUDux911r6m7haRef0WH.jpg"),
+        ("Inception", "https://youtu.be/YoHD9XEInc0",
+         "https://image.tmdb.org/t/p/w342/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg"),
+        # …add 8 more …
+    ]
+    return render(request, "movies/index.html", {"movies": movies})

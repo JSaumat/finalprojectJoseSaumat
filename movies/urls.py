@@ -26,8 +26,11 @@ app_name = 'movies'
 # Adds url for each page on the site
 urlpatterns = [
 
-    # The Home page
-    path('', views.index, name='index'),
+    #The Home page
+    path("", views.home, name="home"),
+
+    # The Movie Voting page
+    path("movie-voting/", views.index, name="index"),
 
     # Movie import for voting page (admin only)
     path('search/', views.search_movie, name='search_movie'),
