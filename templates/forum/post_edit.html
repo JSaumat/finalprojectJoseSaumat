@@ -1,0 +1,31 @@
+{% extends "movies/base.html" %}
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'forum:index' %}">Forums</a></li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'forum:board' object.topic.forum.slug %}">
+        {{ object.topic.forum.name }}
+      </a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'forum:topic' object.topic.forum.slug object.topic.pk object.topic.slug %}">
+        {{ object.topic.title }}
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Edit</li>
+  </ol>
+</nav>
+
+<h2>Edit your post</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn btn-success">Save changes</button>
+  <a class="btn btn-secondary"
+     href="{% url 'forum:topic' object.topic.forum.slug object.topic.pk object.topic.slug %}">
+     Cancel
+  </a>
+</form>
+{% endblock %}

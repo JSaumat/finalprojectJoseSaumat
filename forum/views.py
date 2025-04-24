@@ -7,6 +7,10 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from .forms import NewTopicForm, PostForm
 from .utils import bump_counters
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import UpdateView
+from .models import Post
+from django.utils import timezone
 
 
 def index(request):
@@ -42,6 +46,31 @@ class TopicDetail(DetailView):
         ctx["post_form"] = PostForm()  # inject a blank form
         return ctx
 
+class PostUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model         = Post
+    form_class    = PostForm
+    template_name = "forum/post_edit.html"
+
+    def test_func(self):
+        """Only allow the author or staff to edit."""
+        post = self.get_object()
+        return self.request.user == post.author or self.request.user.is_staff
+
+    def form_valid(self, form):
+        form.instance.edited_at = timezone.now()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        post  = self.get_object()
+        topic = post.topic
+        return reverse(
+            "forum:topic",
+            kwargs={
+                "forum": topic.forum.slug,
+                "pk":    topic.pk,
+                "slug":  topic.slug,
+            }
+        )
 
 @login_required
 def new_topic(request, forum):

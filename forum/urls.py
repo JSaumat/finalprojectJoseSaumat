@@ -10,4 +10,5 @@ urlpatterns = [
     path("reply/<int:topic_id>/",   views.reply_post,  name="reply"),
     path("<slug:forum>/<int:pk>-<slug:slug>/",
          views.TopicDetail.as_view(),                name="topic"),
+    path("post/<int:pk>/edit/", views.PostUpdate.as_view(), name="post_edit"),
 ]

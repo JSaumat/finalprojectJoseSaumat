@@ -16,6 +16,10 @@
 {% for post in object.posts.all %}
   <div class="card mb-3">
     <div class="card-body">
+        {% if user == post.author or user.is_staff %}
+        <a href="{% url 'forum:post_edit' post.pk %}"
+        class="btn btn-sm btn-outline-secondary float-end">Edit</a>
+        {% endif %}
       <p>{{ post.message|linebreaks }}</p>
       <footer class="blockquote-footer">
         {{ post.author }} • {{ post.created_at|naturaltime }}
