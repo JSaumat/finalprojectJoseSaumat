@@ -71,7 +71,7 @@ from .tmdb import search_tmdb
 # Create your views here.
 def index(request):
 
-    return render(request, 'movies/index.html')
+    return render(request, 'movies/movie_voting.html')
 
 # Checks to make sure user is authorized to access page if not throws 403 error
 def only_admin(user):
@@ -118,7 +118,7 @@ def index(request):
 
     login_required = request.session.pop('login_required', False) # Shows modal requiring log in to vote
 
-    return render(request, 'movies/index.html', {
+    return render(request, 'movies/movie_voting.html', {
 
         'movies': movies,
         'voted_movie': voted_movie,
