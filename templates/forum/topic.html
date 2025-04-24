@@ -21,13 +21,22 @@
         class="btn btn-sm btn-outline-secondary float-end">Edit</a>
         {% endif %}
       <p>{{ post.message|linebreaks }}</p>
+
       <footer class="blockquote-footer">
         {{ post.author }} • {{ post.created_at|naturaltime }}
       </footer>
+
+        {% if post.edited_at %}
+        <div class="text-muted small">
+          Last edited {{ post.edited_at|naturaltime }}
+        </div>
+      {% endif %}
+
     </div>
   </div>
 {% endfor %}
 
+    <!-- creates a horizontal line that acts a break -->
 <hr>
 
 {% if user.is_authenticated %}
