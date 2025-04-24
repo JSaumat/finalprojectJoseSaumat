@@ -11,6 +11,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import UpdateView
 from .models import Post
 from django.utils import timezone
+from django.views.generic import DeleteView
+from django.http import Http404
 
 
 def index(request):
@@ -71,6 +73,43 @@ class PostUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 "slug":  topic.slug,
             }
         )
+
+class PostDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model         = Post
+    template_name = "forum/post_confirm_delete.html"
+
+    def test_func(self):
+        """Only the author or staff may delete."""
+        post = self.get_object()
+        return self.request.user == post.author or self.request.user.is_staff
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        topic = self.object.topic
+        forum = topic.forum
+        response = super().delete(request, *args, **kwargs)
+
+        # Recompute counters
+        topic.reply_count = topic.posts.count() - 1
+        topic.save(update_fields=["reply_count"])
+
+        forum.post_count = Post.objects.filter(topic__forum=forum).count()
+        forum.topic_count = forum.topics.count()
+        last = Post.objects.filter(topic__forum=forum).order_by("-created_at").first()
+        forum.last_post = last
+        forum.save(update_fields=["post_count", "topic_count", "last_post"])
+
+        return response
+
+    def get_success_url(self):
+        topic = self.object.topic
+        if topic.posts.exists():
+            return reverse("forum:topic",
+                           kwargs={"forum": topic.forum.slug,
+                                   "pk": topic.pk,
+                                   "slug": topic.slug})
+        # if last post removed, fall back to board
+        return reverse("forum:board", kwargs={"forum": topic.forum.slug})
 
 @login_required
 def new_topic(request, forum):

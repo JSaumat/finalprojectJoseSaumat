@@ -11,4 +11,5 @@ urlpatterns = [
     path("<slug:forum>/<int:pk>-<slug:slug>/",
          views.TopicDetail.as_view(),                name="topic"),
     path("post/<int:pk>/edit/", views.PostUpdate.as_view(), name="post_edit"),
+    path("post/<int:pk>/delete/", views.PostDelete.as_view(), name="post_delete"),
 ]

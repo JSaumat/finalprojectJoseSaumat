@@ -1,0 +1,22 @@
+{% extends "movies/base.html" %}
+{% load humanize %}
+{% block content %}
+<h2>Confirm delete</h2>
+<p>Are you sure you want to delete this post?</p>
+
+<div class="border p-3 mb-3">
+  {{ object.message|linebreaks }}
+  <div class="text-muted small">
+    by {{ object.author }} • {{ object.created_at|naturaltime }}
+  </div>
+</div>
+
+<form method="post">
+  {% csrf_token %}
+  <button class="btn btn-danger">Yes, delete</button>
+  <a class="btn btn-secondary"
+     href="{% url 'forum:topic' object.topic.forum.slug object.topic.pk object.topic.slug %}">
+     Cancel
+  </a>
+</form>
+{% endblock %}
