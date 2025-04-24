@@ -1,0 +1,51 @@
+{% extends "movies/base.html" %}
+{% load humanize %}
+{% block content %}
+<h1 class="mb-4">Community Forums</h1>
+
+{% for cat in cats %}
+  <h3 class="mt-5">{{ cat.name }}</h3>
+  {% if cat.description %}
+    <p class="text-muted">{{ cat.description }}</p>
+  {% endif %}
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead class="table-secondary">
+        <tr>
+          <th>Forum</th>
+          <th class="text-end">Discussions</th>
+          <th class="text-end">Messages</th>
+          <th>Last Post</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for f in cat.forums.all %}
+        <tr>
+          <td>
+            <a href="{% url 'forum:board' f.slug %}">
+              <strong>{{ f.name }}</strong>
+            </a><br>
+            <small class="text-muted">{{ f.blurb }}</small>
+          </td>
+          <td class="text-end">{{ f.topic_count|intcomma }}</td>
+          <td class="text-end">{{ f.post_count|intcomma }}</td>
+          <td>
+            {% if f.last_post %}
+              <a href="{% url 'forum:topic' f.slug f.last_post.topic.pk f.last_post.topic.slug %}">
+                {{ f.last_post.topic.title|truncatechars:32 }}
+              </a><br>
+              <small class="text-muted">
+                {{ f.last_post.author }} • {{ f.last_post.created_at|naturaltime }}
+              </small>
+            {% else %}
+              <small class="text-muted">—</small>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endfor %}
+{% endblock %}

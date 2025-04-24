@@ -27,6 +27,12 @@ class Forum(models.Model):
     topic_count = models.PositiveIntegerField(default=0)
     post_count  = models.PositiveIntegerField(default=0)
 
+    last_post = models.ForeignKey(
+        "Post", null=True, blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+"
+    )
+
     class Meta:
         ordering = ("position",)
 

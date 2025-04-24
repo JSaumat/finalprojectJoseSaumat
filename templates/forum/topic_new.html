@@ -1,0 +1,20 @@
+{% extends "movies/base.html" %}
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'forum:index' %}">Forums</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'forum:board' board.slug %}">
+        {{ board.name }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">New Topic</li>
+  </ol>
+</nav>
+
+<h2>Start a new topic in {{ board.name }}</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {{ t_form.as_p }}
+  {{ p_form.as_p }}
+  <button class="btn btn-success">Create topic</button>
+</form>
+{% endblock %}
