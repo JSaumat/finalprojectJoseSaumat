@@ -64,6 +64,12 @@
           </a>
       </li>
 
+      <li class="nav-item">
+          <a class="nav-link {% if request.resolver_match.namespace == 'forum' %}active{% endif %}" href="{% url 'forum:index' %}">
+              Forum
+          </a>
+      </li>
+
       <!-- Link to the search page to add a movie for voting -->
         {% if user.is_authenticated and user.is_staff %}
 
