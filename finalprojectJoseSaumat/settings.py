@@ -139,4 +139,18 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Authentication redirect that sends users to index after a successful login.
-LOGIN_REDIRECT_URL = 'movies:index'
+LOGIN_REDIRECT_URL = 'movies:home'
+
+# Favorite Movies used on Home Page
+FAVORITE_MOVIES = [
+    ("The Crow", 1994),
+    ("Terminator 2: Judgement Day", 1991),
+    ("The Matrix", 1999),
+    ("The Dark Knight", 2008),
+    ("The Lion King", 1994),
+    ("The Nightmare Before Christmas", 1993),
+    ("A Nightmare On Elm Street", 1984),
+    ("Ghostbusters", 1984),
+    ("Back To The Future", 1985),
+    ("Demolition Man", 1993),
+]

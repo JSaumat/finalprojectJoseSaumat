@@ -15,15 +15,16 @@
 </div>
 
 <div class="movie-grid">
-  {% for title, link, image in movies %}
-    <a href="{{ link }}" target="_blank" class="movie-tile">
-      {% if image %}
-        <img src="{{ image }}" alt="{{ title }}">
+  {% for m in movies %}
+    <a href="{{ m.trailer }}" target="_blank" class="movie-tile">
+      {% if m.poster %}
+        <img src="{{ m.poster }}" alt="{{ m.title }}">
       {% else %}
         <div class="no-image">No Image Available</div>
       {% endif %}
-      <p>{{ title }}</p>
+      <p>{{ m.title }}</p>
     </a>
   {% endfor %}
 </div>
+
 {% endblock %}

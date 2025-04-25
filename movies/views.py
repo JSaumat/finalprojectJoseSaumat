@@ -14,6 +14,10 @@ of academic integrity.
 
 '''
 
+from django.conf import settings
+from .tmdb_client import get_movie, search_id
+
+
 # Django imports for handling HTTP requests and handling templates
 
 from django.shortcuts import render
@@ -191,7 +195,7 @@ def login_user(request):
 
                 login(request, user)
 
-                return redirect('movies:index')
+                return redirect('movies:home')
 
         # Set flag for modal display if login fails
         request.session['login_failed'] = True
@@ -252,13 +256,29 @@ def quick_lookup(request):
 
     })
 
+#Original test homepage before implementing the API powered version below
+# def home(request):
+#     movies = [
+#         # title, trailer URL, poster URL  (replace with your data)
+#         ("The Dark Knight", "https://youtu.be/EXeTwQWrcwY",
+#          "https://image.tmdb.org/t/p/w342/qJ2tW6WMUDux911r6m7haRef0WH.jpg"),
+#         ("Inception", "https://youtu.be/YoHD9XEInc0",
+#          "https://image.tmdb.org/t/p/w342/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg"),
+#         # …add 8 more …
+#     ]
+#     return render(request, "movies/index.html", {"movies": movies})
+
+# New Home Page view
 def home(request):
-    movies = [
-        # title, trailer URL, poster URL  (replace with your data)
-        ("The Dark Knight", "https://youtu.be/EXeTwQWrcwY",
-         "https://image.tmdb.org/t/p/w342/qJ2tW6WMUDux911r6m7haRef0WH.jpg"),
-        ("Inception", "https://youtu.be/YoHD9XEInc0",
-         "https://image.tmdb.org/t/p/w342/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg"),
-        # …add 8 more …
-    ]
+    movies = []
+    for title, year in settings.FAVORITE_MOVIES:
+        mid = search_id(title, year)
+        if mid:
+            movies.append(get_movie(mid))
+        else:
+            movies.append({
+                "title": f"{title} ({year or '?'})",
+                "poster": None,
+                "trailer": "#",
+            })
     return render(request, "movies/index.html", {"movies": movies})
