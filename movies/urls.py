@@ -59,6 +59,9 @@ urlpatterns = [
     # Quick search bar in the navigation bar to search the TMDB database
     path("quick-lookup/", views.quick_lookup, name="quick_lookup"),
 
+    # Community leaderboard page
+    path("leaderboard/", views.leaderboard, name="leaderboard"),
+
     # Test to check if API key was working during development
     #path('test-api/', views.test_api_key, name='test_api'),
 

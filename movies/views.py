@@ -65,6 +65,10 @@ from django.contrib.auth.decorators import login_required
 
 from django.views.decorators.http import require_POST
 
+from django.db.models import Count, Q
+
+from .tmdb_client import get_movie
+
 
 
 # Used to test TMDB API integration earlier in development
@@ -293,3 +297,20 @@ def home(request):
                 "trailer": "#",
             })
     return render(request, "movies/index.html", {"movies": movies})
+
+
+# Leaderboard for community votes
+def leaderboard(request):
+    movies = (
+        Movie.objects
+        .annotate(like_count=Count("votes", filter=Q(votes__value=MovieVote.LIKE)))
+        .filter(like_count__gt=0)
+        .order_by("-like_count", "title")[:10]
+    )
+
+    # NEW: fetch trailer URLs via TMDB helper (cached)
+    for m in movies:
+        details = get_movie(m.tmdb_id)
+        m.trailer = details["trailer"]
+
+    return render(request, "movies/leaderboard.html", {"movies": movies})
