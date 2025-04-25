@@ -15,6 +15,7 @@ of academic integrity.
 '''
 
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 
@@ -42,3 +43,35 @@ class Movie(models.Model):
     # Defines how the object appears
     def __str__(self):
         return self.title
+
+    @property
+    def likes(self):
+        return self.votes.filter(value=MovieVote.LIKE).count()
+
+    @property
+    def dislikes(self):
+        return self.votes.filter(value=MovieVote.DISLIKE).count()
+
+    def user_vote(self, user):
+        if not user.is_authenticated:
+            return 0
+        obj = self.votes.filter(user=user).first()
+        return obj.value if obj else 0
+
+#Improved movie voting class
+class MovieVote(models.Model):
+    LIKE, DISLIKE = 1, -1
+    VOTE_CHOICES = (
+        (LIKE, "Like"),
+        (DISLIKE, "Dislike"),
+    )
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    movie = models.ForeignKey("Movie",
+                              on_delete=models.CASCADE,
+                              related_name="votes")
+    value = models.SmallIntegerField(choices=VOTE_CHOICES)
+
+    class Meta:
+        unique_together = ("user", "movie")  # one vote per user per movie

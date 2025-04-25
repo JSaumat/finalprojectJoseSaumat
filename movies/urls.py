@@ -32,11 +32,14 @@ urlpatterns = [
     # The Movie Voting page
     path("movie-voting/", views.index, name="index"),
 
+    # Voting for a specific movie new version
+    path("vote/<int:movie_id>/", views.movie_vote, name="movie_vote"),
+
     # Movie import for voting page (admin only)
     path('search/', views.search_movie, name='search_movie'),
 
-    # Voting for a specific movie page
-    path('vote/<int:movie_id>/', views.vote_movie, name='vote_movie'),
+    # Voting for a specific movie page old version
+    # path('vote/<int:movie_id>/', views.vote_movie, name='vote_movie'),
 
     # User registration page
     path('register/', views.register_user, name='register'),

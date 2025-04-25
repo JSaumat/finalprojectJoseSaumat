@@ -58,6 +58,15 @@ from django.views.decorators.csrf import csrf_exempt
 # Imports the TMDB search utility
 from .tmdb import search_tmdb
 
+# Imports the Movie and MovieVote classes
+from .models import Movie, MovieVote
+
+from django.contrib.auth.decorators import login_required
+
+from django.views.decorators.http import require_POST
+
+
+
 # Used to test TMDB API integration earlier in development
 # from .utils import fetch_and_save_movie
 
@@ -115,39 +124,41 @@ def search_movie(request):
 
 # Adds the movie view in index
 def index(request):
+    # 1️⃣  fetch all movies
+    movies = Movie.objects.all().order_by('-release_date')
 
-    movies = Movie.objects.all().order_by('-release_date') # Shows latest movies first
+    # 2️⃣  NEW — store the current user’s vote on each movie instance
+    for m in movies:
+        m.my_vote = m.user_vote(request.user)
 
-    voted_movie = request.session.pop('voted', None)  # Shows vote success
-
-    login_required = request.session.pop('login_required', False) # Shows modal requiring log in to vote
+    voted_movie     = request.session.pop('voted', None)
+    login_required  = request.session.pop('login_required', False)
 
     return render(request, 'movies/movie_voting.html', {
-
         'movies': movies,
         'voted_movie': voted_movie,
-        'login_required': login_required
-
+        'login_required': login_required,
     })
 
+
 # Adds the voting view
-def vote_movie(request, movie_id):
+@login_required
+@require_POST
+def movie_vote(request, movie_id):
+    action = request.POST.get("action")          # "like" | "dislike"
+    movie  = get_object_or_404(Movie, id=movie_id)
+    value  = MovieVote.LIKE if action == "like" else MovieVote.DISLIKE
 
-    # Requires user to be logged in to vote, otherwise blocked
-    if not request.user.is_authenticated:
+    obj, created = MovieVote.objects.update_or_create(
+        user=request.user, movie=movie,
+        defaults={"value": value},
+    )
 
-        request.session['login_required'] = True
+    # Toggle OFF if the user clicked the same filled button again
+    if not created and obj.value == value and request.POST.get("toggle") == "1":
+        obj.delete()
 
-        return redirect('movies:index')
-
-    # Updates each movies vote count
-    movie = get_object_or_404(Movie, id=movie_id)
-    movie.vote_count = F('vote_count') + 1 # Increments votes by 1
-    movie.save()
-    movie.refresh_from_db()  # Refresh to get updated vote_count
-    request.session['voted'] = movie.title  # Shows voted modal
-
-    return redirect('movies:index')  # Go back to home page
+    return redirect("movies:index")              # back to movie-voting page
 
 # Adds the user registration view
 def register_user(request):
