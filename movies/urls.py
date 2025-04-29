@@ -26,6 +26,9 @@ app_name = 'movies'
 # Adds url for each page on the site
 urlpatterns = [
 
+    # Adding TV Shows to movie import
+    path("add/", views.search_media, name="add_media"),   # new unified route
+
     #The Home page
     path("", views.home, name="home"),
 

@@ -21,6 +21,8 @@ from django import forms
 from django.contrib.auth.models import User
 
 from django.contrib.auth.forms import AuthenticationForm
+from django import forms
+from .models import Movie
 
 # Movie search form
 class MovieSearchForm(forms.Form):
@@ -30,6 +32,20 @@ class MovieSearchForm(forms.Form):
         label="Movie Title",
         widget=forms.TextInput(attrs={'class': 'form-control'})
     )
+
+class MediaSearchForm(forms.Form):
+    title = forms.CharField(max_length=200, label="Title")
+
+    MEDIA_CHOICES = (
+        (Movie.MOVIE, "Movie"),
+        (Movie.TV,    "TV Show"),
+    )
+    media_type = forms.ChoiceField(
+        choices=MEDIA_CHOICES,
+        initial=Movie.MOVIE,
+        label="Media type",
+    )
+
 
 # Registration form
 class RegisterForm(forms.ModelForm):

@@ -22,11 +22,25 @@ from django.conf import settings
 # Movie model represents each movie record saved in the database
 class Movie(models.Model):
 
+    MOVIE = "movie"
+    TV = "tv"
+    MEDIA_CHOICES = (
+        (MOVIE, "Movie"),
+        (TV, "TV Show"),
+    )
+
+    media_type = models.CharField(
+        max_length=5,
+        choices=MEDIA_CHOICES,
+        default=MOVIE,
+        db_index=True,
+    )
+
     # Movie title
     title = models.CharField(max_length=200)
 
     # TMDB's unique ID for each movie
-    tmdb_id = models.IntegerField(unique=True)
+    tmdb_id = models.IntegerField()
 
     # Link to movies movie poster if available
     poster_url = models.URLField(blank=True)
@@ -40,9 +54,12 @@ class Movie(models.Model):
     # Total number of votes cast by the members of the site
     vote_count = models.IntegerField(default=0)
 
+    class Meta:
+        unique_together = ("tmdb_id", "media_type")  # one vote per user per movie
+
     # Defines how the object appears
     def __str__(self):
-        return self.title
+        return f"{self.title} ({self.get_media_type_display()})"
 
     @property
     def likes(self):
@@ -58,6 +75,9 @@ class Movie(models.Model):
         obj = self.votes.filter(user=user).first()
         return obj.value if obj else 0
 
+    class Meta:
+        unique_together = ("tmdb_id", "media_type")  # one vote per user per movie
+
 #Improved movie voting class
 class MovieVote(models.Model):
     LIKE, DISLIKE = 1, -1
@@ -72,6 +92,3 @@ class MovieVote(models.Model):
                               on_delete=models.CASCADE,
                               related_name="votes")
     value = models.SmallIntegerField(choices=VOTE_CHOICES)
-
-    class Meta:
-        unique_together = ("user", "movie")  # one vote per user per movie

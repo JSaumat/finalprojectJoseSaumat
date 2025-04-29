@@ -21,6 +21,11 @@ from django.conf import settings
 # Custom model to store movies
 from .models import Movie
 
+from .tmdb_client import (
+    search_movie_id, get_movie,
+    search_show_id,  get_show,
+)
+
 # Created a reusable script that can pull data from the TMDB API
 def fetch_and_save_movie(title):
 
@@ -52,3 +57,30 @@ def fetch_and_save_movie(title):
             return movie
 
     return None # Returns nothing if movie was not found
+
+# New helper that can import either movies or TV shows
+def fetch_and_save_media(title: str, media_type: str, year: int | None = None):
+    """
+    Import either a movie or TV show; return Movie instance or None.
+    """
+    if media_type == Movie.MOVIE:
+        tid = search_movie_id(title, year)
+        data = get_movie(tid) if tid else None
+    else:
+        tid = search_show_id(title, year)
+        data = get_show(tid) if tid else None
+
+    if not data:
+        return None
+
+    obj, _ = Movie.objects.get_or_create(
+        tmdb_id=tid,
+        media_type=media_type,
+        defaults={
+            "title":        data["title"],
+            "poster_url":   data["poster"],
+            "description":  "",
+            "release_date": None,
+        },
+    )
+    return obj

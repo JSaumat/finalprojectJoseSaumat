@@ -74,6 +74,9 @@ from .tmdb_client import (
     search_show_id,  get_show,
 )
 
+from .forms import MediaSearchForm            # new form with media_type field
+from .utils import fetch_and_save_media       # ← new helper
+
 
 
 # Used to test TMDB API integration earlier in development
@@ -341,3 +344,22 @@ def leaderboard(request):
         m.trailer = details["trailer"]
 
     return render(request, "movies/leaderboard.html", {"movies": movies})
+
+
+@login_required
+def search_media(request):
+    form = MediaSearchForm(request.POST or None)
+    message = ""
+
+    if request.method == "POST" and form.is_valid():
+        title      = form.cleaned_data["title"]
+        media_type = form.cleaned_data["media_type"]
+
+        obj = fetch_and_save_media(title, media_type)
+        if obj:
+            message = f"{obj.get_media_type_display()} “{obj.title}” imported!"
+        else:
+            message = "Title not found on TMDB."
+
+    return render(request, "movies/search.html",
+                  {"form": form, "message": message})

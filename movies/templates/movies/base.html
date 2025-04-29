@@ -95,13 +95,7 @@
       {% if user.is_authenticated %}
 
         <li class="nav-item">
-
-            <a class="nav-link {% if request.resolver_match.url_name == 'search_movie' %}active{% endif %}"
-
-                href="{% url 'movies:search_movie' %}"> Add Movie
-
-            </a>
-
+          <a class="nav-link" href="{% url 'movies:add_media' %}">Add Movie / TV</a>
         </li>
 
       {% endif %}

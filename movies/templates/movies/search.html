@@ -1,6 +1,5 @@
 {% extends 'movies/base.html' %}
-
-{% block title %}Search Movies{% endblock %}
+{% block title %}Import Movie / TV Show{% endblock %}
 
 {% block content %}
 
@@ -8,17 +7,25 @@
 
     <div class="col-md-8">
 
-        <h2 class="mb-4">Import Movie</h2>
+        <h2 class="mb-4">Import Title for Voting</h2>
 
-        <!-- Movie search input -->
+        <!-- Title search input -->
         <form method="post">
+          {% csrf_token %}
 
-            {% csrf_token %}
+          <!-- title input -->
+          <div class="mb-3">
+            {{ form.title.label_tag }}          <!-- “Title” label -->
+            {{ form.title }}                    <!-- text box -->
+          </div>
 
-            {{ form.as_p }}
+          <!-- media-type dropdown -->
+          <div class="mb-3">
+            {{ form.media_type.label_tag }}     <!-- “Media type” label -->
+            {{ form.media_type }}               <!-- Movie / TV select -->
+          </div>
 
-            <button type="submit" class="btn btn-success">Import</button>
-
+          <button type="submit" class="btn btn-success">Import</button>
         </form>
 
         <!-- Displays result message whether success or error -->
