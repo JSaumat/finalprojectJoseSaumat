@@ -27,4 +27,21 @@
   {% endfor %}
 </div>
 
+<div class="center-title mt-5">
+  <h2>Sam's Top&nbsp;10 TV&nbsp;Shows</h2>
+</div>
+
+<div class="movie-grid">
+  {% for s in shows %}
+    <a href="{{ s.trailer }}" target="_blank" class="movie-tile">
+      {% if s.poster %}
+        <img src="{{ s.poster }}" alt="{{ s.title }}">
+      {% else %}
+        <div class="no-image">No Image Available</div>
+      {% endif %}
+      <p>{{ s.title }}</p>
+    </a>
+  {% endfor %}
+</div>
+
 {% endblock %}

@@ -15,7 +15,7 @@ of academic integrity.
 '''
 
 from django.conf import settings
-from .tmdb_client import get_movie, search_id
+from .tmdb_client import get_movie
 
 
 # Django imports for handling HTTP requests and handling templates
@@ -68,6 +68,11 @@ from django.views.decorators.http import require_POST
 from django.db.models import Count, Q
 
 from .tmdb_client import get_movie
+
+from .tmdb_client import (
+    search_movie_id, get_movie,
+    search_show_id,  get_show,
+)
 
 
 
@@ -283,20 +288,38 @@ def quick_lookup(request):
 #     ]
 #     return render(request, "movies/index.html", {"movies": movies})
 
+# 2nd version of home page
+# def home(request):
+#     movies = []
+#     for title, year in settings.FAVORITE_MOVIES:
+#         mid = search_id(title, year)
+#         if mid:
+#             movies.append(get_movie(mid))
+#         else:
+#             movies.append({
+#                 "title": f"{title} ({year or '?'})",
+#                 "poster": None,
+#                 "trailer": "#",
+#             })
+#     return render(request, "movies/index.html", {"movies": movies})
+
 # New Home Page view
+
 def home(request):
+    # -------- movies ----------
     movies = []
-    for title, year in settings.FAVORITE_MOVIES:
-        mid = search_id(title, year)
-        if mid:
-            movies.append(get_movie(mid))
-        else:
-            movies.append({
-                "title": f"{title} ({year or '?'})",
-                "poster": None,
-                "trailer": "#",
-            })
-    return render(request, "movies/index.html", {"movies": movies})
+    for title, yr in settings.FAVORITE_MOVIES:
+        mid = search_movie_id(title, yr)
+        movies.append(get_movie(mid) if mid else {"title": title, "poster": None, "trailer": "#"})
+
+    # -------- TV shows --------
+    shows = []
+    for name, yr in settings.FAVORITE_SHOWS:
+        sid = search_show_id(name, yr)
+        shows.append(get_show(sid) if sid else {"title": name, "poster": None, "trailer": "#"})
+
+    context = {"movies": movies, "shows": shows}
+    return render(request, "movies/index.html", context)
 
 
 # Leaderboard for community votes

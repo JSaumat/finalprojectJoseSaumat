@@ -154,3 +154,18 @@ FAVORITE_MOVIES = [
     ("Back To The Future", 1985),
     ("Demolition Man", 1993),
 ]
+
+
+# Favorite TV shows used on Home Page
+FAVORITE_SHOWS = [
+    ("Sons of Anarchy", 2008),
+    ("South Park", 1997),
+    ("Smallville", 2001),
+    ("Supernatural", 2005),
+    ("X-Files", 1993),
+    ("Stranger Things", 2016),
+    ("Game of Thrones", 2011),
+    ("American Horror Story", 2011),
+    ("The Grinder", 2015),
+    ("American Primeval", 2025),
+]
