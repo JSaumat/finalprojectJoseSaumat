@@ -105,7 +105,7 @@ def only_admin(user):
     return True
 
 # Creates the view to search for movies that only superusers or admins can access
-@user_passes_test(only_admin)
+@login_required
 def search_movie(request):
 
     form = MovieSearchForm()

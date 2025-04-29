@@ -92,19 +92,19 @@
       </li>
 
       <!-- Link to the search page to add a movie for voting -->
-        {% if user.is_authenticated and user.is_staff %}
+      {% if user.is_authenticated %}
 
-            <li class="nav-item">
+        <li class="nav-item">
 
-              <a class="nav-link {% if request.path == '/search/' %}active{% endif %}" href="{% url 'movies:search_movie' %}">
+            <a class="nav-link {% if request.resolver_match.url_name == 'search_movie' %}active{% endif %}"
 
-                Add Movie
+                href="{% url 'movies:search_movie' %}"> Add Movie
 
-              </a>
+            </a>
 
-            </li>
+        </li>
 
-        {% endif %}
+      {% endif %}
 
       <!-- Link to the admin page for admin only -->
       {% if user.is_authenticated and user.is_staff %}
