@@ -5,6 +5,12 @@ API_KEY = os.getenv("TMDB_API_KEY")            # already loaded from .env
 BASE    = "https://api.themoviedb.org/3"
 IMG_CDN = "https://image.tmdb.org/t/p/w342"   # 342-px posters
 
+# Manual trailer overrides  (tmdb_id : YouTube URL)
+MANUAL_TRAILERS = {
+    2190: "https://www.youtube.com/watch?v=oUIK01ek-Ko",   # South Park
+    1413: "https://www.youtube.com/watch?v=L-WWR7bPvCI",   # American horror Story
+}
+
 # ---------- MOVIE helpers ----------------------
 
 @functools.lru_cache(maxsize=128)
@@ -24,7 +30,25 @@ def get_movie(mid: int):
         params={"api_key": API_KEY, "append_to_response": "videos"},
         timeout=10,
     ).json()
-    return _build_dict(data, title_key="title")
+
+    poster = data.get("poster_path")
+    poster_url  = f"{IMG_CDN}{poster}" if poster else None
+
+    vids = [
+        v for v in data.get("videos", {}).get("results", [])
+        if v["site"] == "YouTube" and v["type"] == "Trailer"
+    ]
+    trailer_url = f"https://youtu.be/{vids[0]['key']}" if vids else "#"
+
+    # If no trailer from TMDB, fall back to manual list
+    if trailer_url == "#" and mid in MANUAL_TRAILERS:
+        trailer_url = MANUAL_TRAILERS[mid]
+
+    return {
+        "title":   data["title"],
+        "poster":  poster_url,
+        "trailer": trailer_url,
+    }
 
 # ---------- TV helpers ---------------------------------------
 
@@ -45,7 +69,21 @@ def get_show(sid: int):
         params={"api_key": API_KEY, "append_to_response": "videos"},
         timeout=10,
     ).json()
-    return _build_dict(data, title_key="name")
+
+    poster = data.get("poster_path")
+    poster_url = f"{IMG_CDN}{poster}" if poster else None
+
+    vids = [
+        v for v in data.get("videos", {}).get("results", [])
+        if v["site"] == "YouTube" and v["type"] == "Trailer"
+    ]
+    trailer_url = f"https://youtu.be/{vids[0]['key']}" if vids else "#"
+
+    # ── unconditional manual override if present ──
+    if sid in MANUAL_TRAILERS:
+        trailer_url = MANUAL_TRAILERS[sid]
+
+    return {"title": data["name"], "poster": poster_url, "trailer": trailer_url}
 
 # ---------- Shared helper ----------------------------------------
 

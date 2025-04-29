@@ -306,20 +306,24 @@ def quick_lookup(request):
 # New Home Page view
 
 def home(request):
-    # -------- movies ----------
+    # -------- movies --------
     movies = []
     for title, yr in settings.FAVORITE_MOVIES:
         mid = search_movie_id(title, yr)
-        movies.append(get_movie(mid) if mid else {"title": title, "poster": None, "trailer": "#"})
+        movies.append(get_movie(mid) if mid else {
+            "title": f"{title} ({yr})", "poster": None, "trailer": "#"
+        })
 
-    # -------- TV shows --------
+    # -------- TV shows ------
     shows = []
     for name, yr in settings.FAVORITE_SHOWS:
         sid = search_show_id(name, yr)
-        shows.append(get_show(sid) if sid else {"title": name, "poster": None, "trailer": "#"})
+        shows.append(get_show(sid) if sid else {
+            "title": f"{name} ({yr})", "poster": None, "trailer": "#"
+        })
 
-    context = {"movies": movies, "shows": shows}
-    return render(request, "movies/index.html", context)
+    return render(request, "movies/index.html",
+                  {"movies": movies, "shows": shows})
 
 
 # Leaderboard for community votes
