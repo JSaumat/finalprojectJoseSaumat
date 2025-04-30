@@ -327,19 +327,55 @@ def home(request):
 
 # Leaderboard for community votes
 def leaderboard(request):
-    movies = (
+    # helper: annotate each row with like_count
+    liked = (
         Movie.objects
-        .annotate(like_count=Count("votes", filter=Q(votes__value=MovieVote.LIKE)))
+        .annotate(
+            like_count=Count("votes",
+                             filter=Q(votes__value=MovieVote.LIKE))
+        )
         .filter(like_count__gt=0)
-        .order_by("-like_count", "title")[:10]
     )
 
-    # NEW: fetch trailer URLs via TMDB helper (cached)
-    for m in movies:
-        details = get_movie(m.tmdb_id)
-        m.trailer = details["trailer"]
+    # ── Top-10 movies ────────────────────────────────────────────
+    top_movies = (
+        liked.filter(media_type=Movie.MOVIE)
+             .order_by("-like_count", "title")[:10]
+    )
 
-    return render(request, "movies/leaderboard.html", {"movies": movies})
+    # ── Top-10 TV shows ─────────────────────────────────────────
+    top_shows = (
+        liked.filter(media_type=Movie.TV)
+             .order_by("-like_count", "title")[:10]
+    )
+
+    # ── Others (not in either top-10) ───────────────────────────
+    exclude_ids = list(top_movies.values_list("id", flat=True)) + \
+                  list(top_shows.values_list("id", flat=True))
+
+    others = (liked.exclude(id__in=exclude_ids)
+                    .order_by("-like_count", "title"))
+
+    # attach trailer URLs (cached) -------------------------------
+    def add_trailer(obj):
+        details = (
+            get_movie(obj.tmdb_id)
+            if obj.media_type == Movie.MOVIE
+            else get_show(obj.tmdb_id)
+        )
+        obj.trailer = details["trailer"]
+        return obj
+
+    top_movies = [add_trailer(m) for m in top_movies]
+    top_shows  = [add_trailer(s) for s in top_shows]
+    others     = [add_trailer(o) for o in others]
+
+    ctx = {
+        "top_movies": top_movies,
+        "top_shows":  top_shows,
+        "others":     others,
+    }
+    return render(request, "movies/leaderboard.html", ctx)
 
 
 @login_required

@@ -1,34 +1,22 @@
 {% extends "movies/base.html" %}
+{% load humanize %}
+
 {% block title %}Community Leaderboard{% endblock %}
 
 {% block content %}
-<h1 class="mb-4 text-center">🏆 Community Top 10</h1>
+<h1 class="mb-4">Community Favorites</h1>
 
-{% if movies %}
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-    {% for movie in movies %}
-      <div class="col">
-        <div class="card h-100 movie-card">
-          {% if movie.poster_url %}
-            <a href="{{ movie.trailer }}" target="_blank">
-              <img src="{{ movie.poster_url }}"
-                   class="card-img-top mx-auto d-block"
-                   alt="{{ movie.title }}">
-            </a>
-          {% endif %}
-          <div class="card-body text-center d-flex flex-column align-items-center">
-            <h5 class="card-title mb-1">{{ movie.title }}</h5>
-            <p class="text-muted small mb-2">👍 {{ movie.like_count }} likes</p>
-            <a href="{{ movie.trailer }}" target="_blank"
-               class="btn btn-outline-primary btn-sm mt-auto">
-               Watch Trailer
-            </a>
-          </div>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-{% else %}
-  <p class="text-center">No likes yet. Be the first to vote!</p>
+<!-- Top-10 Movies -->
+<h3 class="mt-4">Top&nbsp;10 Movies</h3>
+{% include "movies/_leaderboard_list.html" with items=top_movies %}
+
+<!-- Top-10 TV Shows -->
+<h3 class="mt-5">Top&nbsp;10 TV Shows</h3>
+{% include "movies/_leaderboard_list.html" with items=top_shows %}
+
+<!-- Other titles that still have likes -->
+{% if others %}
+  <h3 class="mt-5">Other Titles with Likes</h3>
+  {% include "movies/_leaderboard_list.html" with items=others %}
 {% endif %}
 {% endblock %}
