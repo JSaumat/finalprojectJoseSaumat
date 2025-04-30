@@ -104,6 +104,7 @@ Inspiration, code snippets, etc.
 * [Jason Zeller](https://www.youtube.com/watch?v=lSqCJqnwCb8&list=PLE5nOs3YmC2RqZfmOSoOM4iqmed2pudrg&index=17)
 * [Jason Zeller](https://www.youtube.com/watch?v=KPx2F812vGc&list=PLE5nOs3YmC2RqZfmOSoOM4iqmed2pudrg&index=20)
 * [Jason Zeller](https://www.youtube.com/watch?v=VHkIzFJCU-0&list=PLE5nOs3YmC2RqZfmOSoOM4iqmed2pudrg&index=20)
+* [BootStrap](https://getbootstrap.com/docs/4.0/components/modal/)
 
 API and Package documentation
 * [TMDB API](https://www.themoviedb.org/)

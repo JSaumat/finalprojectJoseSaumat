@@ -158,3 +158,14 @@ body {
   color:#666;
   font-size:.9rem;
 }
+
+/* ─── Dark-theme modal that matches navbar-dark bg-dark ─────────── */
+.modal-dark .modal-content            { background:#212529; color:#fff; }
+.modal-dark .modal-header,
+.modal-dark .modal-footer             { border-color:#343a40; }
+.modal-dark a,
+.modal-dark a:hover,
+.modal-dark .btn-close                { color:#fff; }
+/* same width for both modal buttons */
+.age-btn { min-width: 160px; }
+
