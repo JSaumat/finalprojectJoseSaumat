@@ -84,3 +84,27 @@ def fetch_and_save_media(title: str, media_type: str, year: int | None = None):
         },
     )
     return obj
+
+def import_by_id(tmdb_id: int, media_type: str):
+    """
+    Create/fetch a Movie row given a TMDB id and media_type ("movie"|"tv").
+    Returns the Movie object or None if id invalid.
+    """
+    if media_type == Movie.MOVIE:
+        data = get_movie(tmdb_id)
+    else:
+        data = get_show(tmdb_id)
+
+    if not data:
+        return None
+
+    obj, _ = Movie.objects.get_or_create(
+        tmdb_id=tmdb_id, media_type=media_type,
+        defaults={
+            "title":        data["title"],
+            "poster_url":   data["poster"],
+            "description":  "",
+            "release_date": None,
+        },
+    )
+    return obj

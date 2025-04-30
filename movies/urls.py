@@ -29,6 +29,8 @@ urlpatterns = [
     # Adding TV Shows to movie import
     path("add/", views.search_media, name="add_media"),   # new unified route
 
+    path("add/import/",   views.import_media, name="import_media"),
+
     #The Home page
     path("", views.home, name="home"),
 

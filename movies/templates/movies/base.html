@@ -93,11 +93,10 @@
 
       <!-- Link to the search page to add a movie for voting -->
       {% if user.is_authenticated %}
-
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'movies:add_media' %}">Add Movie / TV</a>
-        </li>
-
+          <a class="nav-link {% if request.resolver_match.url_name == 'add_media' %}active{% endif %}"
+             href="{% url 'movies:add_media' %}">
+            Add Movie / TV
+          </a>
       {% endif %}
 
       <!-- Link to the admin page for admin only -->

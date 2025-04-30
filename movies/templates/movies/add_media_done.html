@@ -1,0 +1,9 @@
+{% extends "movies/base.html" %}
+{% block title %}Import{% endblock %}
+
+{% block content %}
+<div class="alert alert-info mt-4">{{ message }}</div>
+<a href="{% url 'movies:add_media' %}" class="btn btn-outline-primary mt-3">
+  Import another
+</a>
+{% endblock %}

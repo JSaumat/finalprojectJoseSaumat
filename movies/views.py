@@ -79,6 +79,8 @@ from .utils import fetch_and_save_media       # ← new helper
 
 from .tmdb import search_tmdb_multi      # import the new helper for quick search
 
+from .utils import import_by_id
+
 
 
 # Used to test TMDB API integration earlier in development
@@ -342,18 +344,65 @@ def leaderboard(request):
 
 @login_required
 def search_media(request):
-    form = MediaSearchForm(request.POST or None)
+    """
+    GET  → empty search box
+    POST (search button)  → show results list
+    POST (import button)  → import the chosen tmdb_id
+    """
     message = ""
+    query = request.POST.get("title", "").strip() if "search" in request.POST else ""
+    results = search_tmdb_multi(query) if query else []
 
-    if request.method == "POST" and form.is_valid():
-        title      = form.cleaned_data["title"]
-        media_type = form.cleaned_data["media_type"]
+    # when an Import button is pressed we get tmdb_id + media_type
+    if "import_one" in request.POST:
+        tmdb_id    = int(request.POST["tmdb_id"])
+        media_type = request.POST["media_type"]
+        obj = import_by_id(tmdb_id, media_type)
+        message = (
+            f"{obj.get_media_type_display()} “{obj.title}” imported!"
+            if obj else "Import failed."
+        )
 
-        obj = fetch_and_save_media(title, media_type)
-        if obj:
-            message = f"{obj.get_media_type_display()} “{obj.title}” imported!"
-        else:
-            message = "Title not found on TMDB."
+    return render(
+        request,
+        "movies/add_media.html",
+        {"query": query, "results": results, "message": message},
+    )
 
-    return render(request, "movies/search.html",
-                  {"form": form, "message": message})
+
+@login_required
+def add_media(request):
+    """
+    GET  – empty search form
+    POST (search)          – show results with check-boxes
+    POST (import_selected) – import all checked results
+    """
+    query    = request.POST.get("title", "").strip() if "search" in request.POST else ""
+    results  = search_tmdb_multi(query) if query else []
+    message  = ""
+
+    # bulk import
+    if "import_selected" in request.POST:
+        count = 0
+        for key, val in request.POST.items():
+            if key.startswith("pick_"):          # pick_2190_movie
+                tmdb_id, media_type = val.split("_", 1)
+                if import_by_id(int(tmdb_id), media_type):
+                    count += 1
+        message = f"{count} title(s) imported." if count else "Nothing selected."
+
+    return render(request, "movies/add_media.html",
+                  {"query": query, "results": results, "message": message})
+
+
+@require_POST
+@login_required
+def import_media(request):
+    tmdb_id    = int(request.POST["tmdb_id"])
+    media_type = request.POST["media_type"]
+
+    obj = import_by_id(tmdb_id, media_type)
+    msg = (f"{obj.get_media_type_display()} “{obj.title}” imported!"
+           if obj else "Import failed.")
+
+    return render(request, "movies/add_media_done.html", {"message": msg})
