@@ -77,6 +77,8 @@ from .tmdb_client import (
 from .forms import MediaSearchForm            # new form with media_type field
 from .utils import fetch_and_save_media       # ← new helper
 
+from .tmdb import search_tmdb_multi      # import the new helper for quick search
+
 
 
 # Used to test TMDB API integration earlier in development
@@ -260,24 +262,16 @@ def about_page(request):
 # Adds a lookup to search TMDB without adding to the index voting page
 @csrf_exempt
 def quick_lookup(request):
-
     results = []
-    query = ""
+    query   = ""
 
     if request.method == "POST":
-
-        query = request.POST.get("title")
-
+        query = request.POST.get("title", "").strip()
         if query:
+            results = search_tmdb_multi(query)   # <- new helper
 
-            results = search_tmdb(query)
-
-    return render(request, "movies/quick_lookup_results.html", {
-
-        "results": results,
-        "query": query
-
-    })
+    return render(request, "movies/quick_lookup_results.html",
+                  {"results": results, "query": query})
 
 #Original test homepage before implementing the API powered version below
 # def home(request):

@@ -20,6 +20,47 @@ import requests
 # Used to access TMDB API key from settings.py
 from django.conf import settings
 
+import os
+
+
+API_KEY = os.getenv("TMDB_API_KEY")
+BASE    = "https://api.themoviedb.org/3"
+IMG_CDN = "https://image.tmdb.org/t/p/w185"
+
+def _fetch(endpoint, query):
+    params = {"api_key": API_KEY, "query": query, "include_adult": False}
+    data = requests.get(f"{BASE}{endpoint}", params=params, timeout=7).json()
+    return data.get("results") or []
+
+
+def search_tmdb_multi(query: str, limit: int = 6):
+    """
+    Return a merged list of movie + tv hits:
+      [{title, year, poster, media_type}, …]
+    """
+    movies = _fetch("/search/movie", query)
+    shows  = _fetch("/search/tv",    query)
+
+    def remap(item, media):
+        title = item["title"] if media == "movie" else item["name"]
+        year  = (item.get("release_date") or item.get("first_air_date") or "")[:4]
+        poster = item["poster_path"]
+        poster_url = f"{IMG_CDN}{poster}" if poster else None
+        return {
+            "title": title,
+            "year":  year,
+            "poster": poster_url,
+            "media_type": media,   # movie | tv
+        }
+
+    merged = [*map(lambda x: remap(x, "movie"), movies[:limit//2]),
+              *map(lambda x: remap(x, "tv"),    shows[:limit//2])]
+
+    # sort by TMDB popularity desc
+    merged.sort(key=lambda d: d["title"])
+    return merged[:limit]
+
+
 # Search TMDB for a movie by title in the navigation bar (quick lookup version)
 def search_tmdb(query):
 
