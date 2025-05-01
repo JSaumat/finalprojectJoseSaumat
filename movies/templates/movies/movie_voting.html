@@ -8,7 +8,21 @@
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
   {% for movie in movies %}
     <div class="col">
-      <div class="card h-100 movie-card">
+      <div class="card h-100 movie-card position-relative">
+
+        {# ───────── staff-only delete button ───────── #}
+        {% if user.is_staff %}
+        <form method="post"
+              action="{% url 'movies:delete_movie' movie.id %}"
+              class="position-absolute top-0 end-0 m-2">
+          {% csrf_token %}
+          <button class="btn btn-sm btn-danger"
+                  onclick="return confirm('Delete {{ movie.title }}?');">
+            <i class="bi bi-trash"></i>
+          </button>
+        </form>
+        {% endif %}
+        {# ──────────────────────────────────────────── #}
         {% if movie.poster_url %}
           <img src="{{ movie.poster_url }}"
                class="card-img-top mx-auto d-block"

@@ -67,6 +67,9 @@ urlpatterns = [
     # Community leaderboard page
     path("leaderboard/", views.leaderboard, name="leaderboard"),
 
+    #Delete Movie view from voting page
+    path("delete/<int:movie_id>/", views.delete_movie, name="delete_movie"),
+
     # Test to check if API key was working during development
     #path('test-api/', views.test_api_key, name='test_api'),
 

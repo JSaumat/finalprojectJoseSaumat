@@ -75,6 +75,7 @@ from .tmdb_client import (
 )
 
 from .forms import MediaSearchForm            # new form with media_type field
+
 from .utils import fetch_and_save_media       # ← new helper
 
 from .tmdb import search_tmdb_multi      # import the new helper for quick search
@@ -83,6 +84,7 @@ from .utils import import_by_id
 
 from django.db.models import Sum, Case, When, IntegerField
 
+from django.contrib.admin.views.decorators import staff_member_required
 
 
 # Used to test TMDB API integration earlier in development
@@ -449,3 +451,14 @@ def import_media(request):
            if obj else "Import failed.")
 
     return render(request, "movies/add_media_done.html", {"message": msg})
+
+@require_POST
+@staff_member_required           # allows superuser OR staff
+def delete_movie(request, movie_id):
+    """
+    Permanently remove a movie / TV show and its votes.
+    """
+    movie = get_object_or_404(Movie, id=movie_id)
+    movie.delete()
+    messages.success(request, f"“{movie.title}” deleted.")
+    return redirect("movies:index")
