@@ -94,6 +94,8 @@ Contributors names and contact info
 
 - Jose Saumat
 - Jason Zeller (via Tutorials)
+- Bro Code (via Tutorial)
+- Selmi Tech (via Tutorial)
 
 ## Acknowledgments
 
@@ -105,6 +107,8 @@ Inspiration, code snippets, etc.
 * [Jason Zeller](https://www.youtube.com/watch?v=KPx2F812vGc&list=PLE5nOs3YmC2RqZfmOSoOM4iqmed2pudrg&index=20)
 * [Jason Zeller](https://www.youtube.com/watch?v=VHkIzFJCU-0&list=PLE5nOs3YmC2RqZfmOSoOM4iqmed2pudrg&index=20)
 * [BootStrap](https://getbootstrap.com/docs/4.0/components/modal/)
+* [Bro Code Lamda Tutorial](https://www.youtube.com/watch?v=IljPHDyBRog)
+* [Selmi Tech Django Forum Tutorial](https://www.youtube.com/watch?v=YXmsi13cMhw)
 
 API and Package documentation
 * [TMDB API](https://www.themoviedb.org/)
@@ -114,3 +118,4 @@ API and Package documentation
 * [Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
 * [W3 Schools HTML](https://www.w3schools.com/html/default.asp)
 * [W3 Schools CSS](https://www.w3schools.com/css/default.asp)
+* [W3 Schools Lambda](https://www.w3schools.com/python/python_lambda.asp)
