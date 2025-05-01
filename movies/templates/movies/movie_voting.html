@@ -22,25 +22,27 @@
             <div class="d-flex gap-2 justify-content-center">
               {% if user.is_authenticated %}
                 {# ── AUTHENTICATED: normal like / dislike forms ── #}
+
+                <!-- 👍 Like (net-score) button -->
                 <form method="post" action="{% url 'movies:movie_vote' movie.id %}" class="d-inline">
                   {% csrf_token %}
                   <input type="hidden" name="action" value="like">
                   <input type="hidden" name="toggle" value="1">
-                  <button class="btn btn-sm
-                         {% if movie.my_vote == 1 %}btn-success{% else %}btn-outline-success{% endif %}">
-                    👍 {{ movie.likes }}
+                  <button class="btn btn-sm {% if movie.my_vote == 1 %}btn-success{% else %}btn-outline-success{% endif %}">
+                    👍 {{ movie.likes }}         {# net likes (like-dislike) #}
                   </button>
                 </form>
 
+                <!-- 👎 Dislike button -->
                 <form method="post" action="{% url 'movies:movie_vote' movie.id %}" class="d-inline">
                   {% csrf_token %}
                   <input type="hidden" name="action" value="dislike">
                   <input type="hidden" name="toggle" value="1">
-                  <button class="btn btn-sm
-                         {% if movie.my_vote == -1 %}btn-danger{% else %}btn-outline-danger{% endif %}">
-                    👎 {{ movie.dislikes }}
+                  <button class="btn btn-sm {% if movie.my_vote == -1 %}btn-danger{% else %}btn-outline-danger{% endif %}">
+                    👎 {{ movie.dislikes }}      {# raw dislike count #}
                   </button>
                 </form>
+
               {% else %}
                 {# ── GUEST: buttons trigger login modal ── #}
                 <button type="button" class="btn btn-sm btn-outline-success need-login">

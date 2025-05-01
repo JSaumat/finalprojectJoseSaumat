@@ -3,7 +3,6 @@
 <ul class="list-group mb-3">
   {% for m in items %}
     <li class="list-group-item d-flex align-items-center gap-3">
-
       {% if m.poster_url %}
         <img src="{{ m.poster_url }}" width="55" height="82" class="rounded">
       {% endif %}
@@ -12,9 +11,8 @@
         <a href="{{ m.trailer }}" target="_blank" class="fw-bold">
           {{ m.title }}
         </a>
-        • {{ m.like_count|intcomma }} like{{ m.like_count|pluralize }}
+        • {{ m.net_score|intcomma }} like{{ m.net_score|pluralize }}
       </span>
-
     </li>
   {% endfor %}
 </ul>

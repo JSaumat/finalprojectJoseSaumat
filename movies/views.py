@@ -81,6 +81,8 @@ from .tmdb import search_tmdb_multi      # import the new helper for quick searc
 
 from .utils import import_by_id
 
+from django.db.models import Sum, Case, When, IntegerField
+
 
 
 # Used to test TMDB API integration earlier in development
@@ -331,22 +333,27 @@ def leaderboard(request):
     liked = (
         Movie.objects
         .annotate(
-            like_count=Count("votes",
-                             filter=Q(votes__value=MovieVote.LIKE))
+            net_score=Sum(
+                Case(
+                    When(votes__value=MovieVote.LIKE, then=1),
+                    When(votes__value=MovieVote.DISLIKE, then=-1),
+                    output_field=IntegerField(),
+                )
+            )
         )
-        .filter(like_count__gt=0)
+        .filter(net_score__gt=0)
     )
 
     # ── Top-10 movies ────────────────────────────────────────────
     top_movies = (
         liked.filter(media_type=Movie.MOVIE)
-             .order_by("-like_count", "title")[:10]
+             .order_by("-net_score", "title")[:10]
     )
 
     # ── Top-10 TV shows ─────────────────────────────────────────
     top_shows = (
         liked.filter(media_type=Movie.TV)
-             .order_by("-like_count", "title")[:10]
+             .order_by("-net_score", "title")[:10]
     )
 
     # ── Others (not in either top-10) ───────────────────────────
@@ -354,7 +361,7 @@ def leaderboard(request):
                   list(top_shows.values_list("id", flat=True))
 
     others = (liked.exclude(id__in=exclude_ids)
-                    .order_by("-like_count", "title"))
+                    .order_by("-net_score", "title"))
 
     # attach trailer URLs (cached) -------------------------------
     def add_trailer(obj):

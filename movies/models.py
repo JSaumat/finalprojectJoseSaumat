@@ -16,6 +16,7 @@ of academic integrity.
 
 from django.db import models
 from django.conf import settings
+from django.db.models import Count, Q
 
 # Create your models here.
 
@@ -63,7 +64,13 @@ class Movie(models.Model):
 
     @property
     def likes(self):
-        return self.votes.filter(value=MovieVote.LIKE).count()
+        """
+        Net likes: +1 for each like vote, −1 for each dislike vote.
+        E.g. 3 likes, 2 dislikes ⇒ 1
+        """
+        plus = self.votes.filter(value=MovieVote.LIKE).count()
+        minus = self.votes.filter(value=MovieVote.DISLIKE).count()
+        return plus - minus
 
     @property
     def dislikes(self):
