@@ -2,7 +2,7 @@
 
 INF601 - Programming in Python
 
-Assignment #3:  Mini Project 4
+Assignment:  Final Project
 
 I,     Jose Saumat   , affirm that the work submitted for this assignment is entirely my own.
 I have not engaged in any form of academic dishonesty, including but not limited to cheating, plagiarism,
@@ -19,12 +19,16 @@ from django.contrib import admin
 from .models import Movie
 
 # Change admin site headers
-admin.site.site_header = "MovieVote Admin"
-admin.site.site_title = "MovieVote Admin Portal"
-admin.site.index_title = "Welcome to the MovieVote Management Area"
+admin.site.site_header = "Sam's Picks Admin"
+
+admin.site.site_title = "Sam's Picks Admin Portal"
+
+admin.site.index_title = "Welcome to the Sam's Picks Management Area"
 
 # Register your models here.
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
+
     list_display = ('title', 'release_date', 'vote_count')
+
     search_fields = ('title',)

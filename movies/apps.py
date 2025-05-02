@@ -2,7 +2,7 @@
 
 INF601 - Programming in Python
 
-Assignment #3:  Mini Project 4
+Assignment:  Final Project
 
 I,     Jose Saumat   , affirm that the work submitted for this assignment is entirely my own.
 I have not engaged in any form of academic dishonesty, including but not limited to cheating, plagiarism,
@@ -13,10 +13,12 @@ and outlined in institutional policies. By signing this statement, I acknowledge
 of academic integrity.
 
 '''
-
+#Imports
 from django.apps import AppConfig
 
 # Configures app called movies
 class MoviesConfig(AppConfig):
+
     default_auto_field = 'django.db.models.BigAutoField'
+
     name = 'movies'
