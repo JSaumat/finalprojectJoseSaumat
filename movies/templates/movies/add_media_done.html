@@ -1,9 +1,18 @@
+<!-- Imports the confirmation page -->
 {% extends "movies/base.html" %}
+
 {% block title %}Import{% endblock %}
 
 {% block content %}
-<div class="alert alert-info mt-4">{{ message }}</div>
-<a href="{% url 'movies:add_media' %}" class="btn btn-outline-primary mt-3">
-  Import another
-</a>
+
+    <!-- “message” is passed in from views.import_media – success / failure -->
+    <div class="alert alert-info mt-4">{{ message }}</div>
+
+    <!-- Button to return to the search / import screen -->
+    <a href="{% url 'movies:add_media' %}" class="btn btn-outline-primary mt-3">
+
+      Import another
+
+    </a>
+
 {% endblock %}

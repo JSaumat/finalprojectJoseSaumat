@@ -134,25 +134,27 @@ body {
 /* New Home Page grid For Movies and TV Shows*/
 .movie-grid{
   display:grid;
-  grid-template-columns:repeat(5,1fr);
+  grid-template-columns:repeat(5,1fr);      /* 5‑column grid */
   gap:1rem;
   margin-bottom:2rem;
 }
 
-/* Controls movie title text */
+/* Card anchor styling */
 .movie-tile{
   text-align:center;
   text-decoration:none;
-  color:inherit;
+  color:inherit;    /* keep default text colour */
 }
 
-/* Controls movie title image */
+/* Poster thumbnails inside the grid */
 .movie-tile img,
 .no-image{
   width:100%;
   border-radius:.5rem;
   box-shadow:0 2px 6px rgba(0,0,0,.25);
 }
+
+/* Placeholder for "no image" box */
 .no-image{
   aspect-ratio:2/3;
   background:#eee;
@@ -170,6 +172,7 @@ body {
 .modal-dark a,
 .modal-dark a:hover,
 .modal-dark .btn-close                { color:#fff; }
-/* same width for both modal buttons */
+
+/* Keep both “Yes” and “No” age buttons same minimum width */
 .age-btn { min-width: 160px; }
 

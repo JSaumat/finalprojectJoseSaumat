@@ -1,58 +1,102 @@
+<!-- Add Media (movie / TV) – search + import screen -->
 {% extends "movies/base.html" %}
+
 {% block title %}Import Movie / TV{% endblock %}
 
 {% block content %}
+
 <h2 class="mb-4">Import Movie or TV Show</h2>
 
+<!-- Optional flash message from the view (success / error) -->
 {% if message %}
+
   <div class="alert alert-info">{{ message }}</div>
+
 {% endif %}
 
-<!-- SEARCH BAR --------------------------------------------------->
+<!-- SEARCH BAR -->
 <form method="post" class="mb-4">
+
   {% csrf_token %}
-  <input type="hidden" name="search" value="1">
+
+  <input type="hidden" name="search" value="1">     <!-- flag for the view -->
 
   <div class="input-group">
+
     <input name="title"
+
            class="form-control"
+
            placeholder="Search TMDB"
+
            value="{{ query|default_if_none:'' }}">
+
     <button class="btn btn-primary">Search</button>
+
   </div>
+
 </form>
 
-<!-- RESULTS LIST -------------------------------------------------->
+<!-- RESULTS LIST -->
 {% if results %}
   <ul class="list-group">
+
     {% for item in results %}
+
       <li class="list-group-item d-flex align-items-center gap-3">
+
+        <!-- Poster thumb, if TMDB had one -->
         {% if item.poster %}
+
           <img src="{{ item.poster }}" width="55" height="82" class="rounded">
+
         {% endif %}
 
         <span class="flex-fill">
+
           <strong>{{ item.title }}</strong>
+
           {% if item.year %} ({{ item.year }}){% endif %}
+
+          <!-- Badge shows whether hit is movie or TV -->
           {% if item.media_type == "tv" %}
+
             <span class="badge bg-info text-dark ms-2">TV</span>
+
           {% else %}
+
             <span class="badge bg-secondary ms-2">Movie</span>
+
           {% endif %}
+
         </span>
 
         <!-- mini-form to import this single result -->
         <form method="post" action="">
+
           {% csrf_token %}
+
           <input type="hidden" name="import_one" value="1">
+
           <input type="hidden" name="tmdb_id"    value="{{ item.id }}">
+
           <input type="hidden" name="media_type" value="{{ item.media_type }}">
+
           <button class="btn btn-sm btn-success">Import</button>
+
         </form>
+
       </li>
+
     {% endfor %}
+
   </ul>
+
+    <!-- If no results from user submitted request-->
 {% elif query %}
+
   <p>No results for <strong>{{ query }}</strong>.</p>
+
 {% endif %}
+
 {% endblock %}

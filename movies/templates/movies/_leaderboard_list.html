@@ -1,18 +1,36 @@
+<!-- Partial for leaderboard sections Renders a <ul> of titles with poster + like score. -->
 {% load humanize %}
 
 <ul class="list-group mb-3">
+
+  <!-- “items” is passed in by include ... with items=... -->
   {% for m in items %}
+
     <li class="list-group-item d-flex align-items-center gap-3">
+
+
+       <!-- Optional miniature poster (55×82) -->
       {% if m.poster_url %}
+
         <img src="{{ m.poster_url }}" width="55" height="82" class="rounded">
+
       {% endif %}
 
       <span class="flex-fill">
+
+        <!-- Link opens trailer in a new tab -->
         <a href="{{ m.trailer }}" target="_blank" class="fw-bold">
+
           {{ m.title }}
+
         </a>
+
         • {{ m.net_score|intcomma }} like{{ m.net_score|pluralize }}
+
       </span>
+
     </li>
+
   {% endfor %}
+
 </ul>
