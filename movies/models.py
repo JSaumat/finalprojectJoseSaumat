@@ -14,6 +14,7 @@ of academic integrity.
 
 '''
 
+
 from django.db import models
 from django.conf import settings
 from django.db.models import Count, Q
@@ -23,6 +24,7 @@ from django.db.models import Count, Q
 # Movie model represents each movie record saved in the database
 class Movie(models.Model):
 
+    # Media type choices
     MOVIE = "movie"
     TV = "tv"
     MEDIA_CHOICES = (
@@ -31,11 +33,13 @@ class Movie(models.Model):
     )
 
     media_type = models.CharField(
-        max_length=5,
+        max_length=5,                   # fits the words movie and TV
         choices=MEDIA_CHOICES,
         default=MOVIE,
-        db_index=True,
+        db_index=True,                  # Helps with faster filtering
     )
+
+    # Basic data below
 
     # Movie title
     title = models.CharField(max_length=200)
@@ -52,50 +56,86 @@ class Movie(models.Model):
     # Link to movie release date
     release_date = models.DateField(null=True, blank=True)
 
-    # Total number of votes cast by the members of the site
-    vote_count = models.IntegerField(default=0)
+    # Total number of votes cast by the members of the site before the net-like refactor
+    # vote_count = models.IntegerField(default=0)
 
+    # Helps Django to enforce uniqueness
     class Meta:
+
         unique_together = ("tmdb_id", "media_type")  # one vote per user per movie
 
-    # Defines how the object appears
+    # Defines how the object (movie or tv show) appears
     def __str__(self):
+
         return f"{self.title} ({self.get_media_type_display()})"
 
+    # Keeps track of net-likes that appear next to the like button
     @property
     def likes(self):
+
         """
         Net likes: +1 for each like vote, −1 for each dislike vote.
-        E.g. 3 likes, 2 dislikes ⇒ 1
+        Ex. 3 likes, 2 dislikes ⇒ 3 - 2 = 1 net Like
         """
+
         plus = self.votes.filter(value=MovieVote.LIKE).count()
+
         minus = self.votes.filter(value=MovieVote.DISLIKE).count()
+
         return plus - minus
 
+    # Keeps track of dislikes that appear next to the dislike button
     @property
     def dislikes(self):
+
         return self.votes.filter(value=MovieVote.DISLIKE).count()
 
+    # Keeps track of user votes
     def user_vote(self, user):
+
+        """
+                Helper: return current user’s vote on this movie
+                •  1  → user liked
+                • -1  → user disliked
+                •  0  → no vote or user not authenticated
+                """
+
         if not user.is_authenticated:
+
             return 0
+
         obj = self.votes.filter(user=user).first()
+
         return obj.value if obj else 0
 
-    class Meta:
-        unique_together = ("tmdb_id", "media_type")  # one vote per user per movie
+    # Helps Django to enforce uniqueness (Duplicate)
+    # class Meta:
+    #
+    #     unique_together = ("tmdb_id", "media_type")  # one vote per user per movie
 
 #Improved movie voting class
 class MovieVote(models.Model):
+
+    """
+        One row per user’s vote on a Movie.
+
+        value:
+            1  → like
+           -1  → dislike
+        The (user, movie) pair is unique to enforce “one vote per user”.
+        """
+
     LIKE, DISLIKE = 1, -1
     VOTE_CHOICES = (
         (LIKE, "Like"),
         (DISLIKE, "Dislike"),
     )
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE)
-    movie = models.ForeignKey("Movie",
-                              on_delete=models.CASCADE,
-                              related_name="votes")
+    # Tracks who cast the vote
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    # Tracks what the user voted on
+    movie = models.ForeignKey("Movie", on_delete=models.CASCADE, related_name="votes")
+
+    # Tracks like or dislike
     value = models.SmallIntegerField(choices=VOTE_CHOICES)

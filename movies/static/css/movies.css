@@ -131,18 +131,22 @@ body {
     margin-bottom: 0 !important; /* ensure items align horizontally */
 }
 
-/* New Home Page grid For movies */
+/* New Home Page grid For Movies and TV Shows*/
 .movie-grid{
   display:grid;
   grid-template-columns:repeat(5,1fr);
   gap:1rem;
   margin-bottom:2rem;
 }
+
+/* Controls movie title text */
 .movie-tile{
   text-align:center;
   text-decoration:none;
   color:inherit;
 }
+
+/* Controls movie title image */
 .movie-tile img,
 .no-image{
   width:100%;
@@ -159,7 +163,7 @@ body {
   font-size:.9rem;
 }
 
-/* ─── Dark-theme modal that matches navbar-dark bg-dark ─────────── */
+/* Dark-theme modal that matches navbar-dark bg-dark */
 .modal-dark .modal-content            { background:#212529; color:#fff; }
 .modal-dark .modal-header,
 .modal-dark .modal-footer             { border-color:#343a40; }

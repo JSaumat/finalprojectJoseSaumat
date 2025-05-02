@@ -11,9 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-# import os
-#
-# from django.core.wsgi import get_wsgi_application
 
 # Sets the environment variable for the settings module
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'finalprojectJoseSaumat.settings')

@@ -1,18 +1,17 @@
-from django.shortcuts import (get_object_or_404, render)
-from django.views.generic import ListView, DetailView
-from .models import Category, Forum, Topic
-from django.db.models import F
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
-from django.urls import reverse
-from .forms import NewTopicForm, PostForm
-from .utils import bump_counters
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import UpdateView
-from .models import Post
-from django.utils import timezone
-from django.views.generic import DeleteView
-from django.http import Http404
+# Django / std‑lib imports
+from django.shortcuts   import get_object_or_404, render, redirect
+from django.views.generic import ListView, DetailView, UpdateView, DeleteView
+from django.urls        import reverse
+from django.db.models   import F
+from django.utils       import timezone
+from django.contrib.auth.decorators      import login_required
+from django.contrib.auth.mixins          import LoginRequiredMixin, UserPassesTestMixin
+from django.http        import Http404
+
+# Local app imports
+from .models  import Category, Forum, Topic, Post
+from .forms   import NewTopicForm, PostForm
+from .utils   import bump_counters
 
 
 def index(request):

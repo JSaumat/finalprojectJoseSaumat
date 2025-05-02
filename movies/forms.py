@@ -16,61 +16,94 @@ of academic integrity.
 
 #These classes are used to generate forms and handle user input
 
-from django import forms
-
 from django.contrib.auth.models import User
 
 from django.contrib.auth.forms import AuthenticationForm
+
 from django import forms
+
 from .models import Movie
 
-# Movie search form
+# Original Movie search form for movies only
 class MovieSearchForm(forms.Form):
 
+    """
+    Single text input for searching TMDB movies; used by /search/ page.
+    """
+
     title = forms.CharField(
+
         max_length=100,
+
         label="Movie Title",
+
         widget=forms.TextInput(attrs={'class': 'form-control'})
     )
 
+# Revised Movie and TV Show search form
 class MediaSearchForm(forms.Form):
+
+    """
+    Title + media type selector (Movie | TV Show). Used on Add Movie / TV page.
+    """
+
     title = forms.CharField(max_length=200, label="Title")
 
+    # Reuse of model constants to keep form in sync
     MEDIA_CHOICES = (
+
         (Movie.MOVIE, "Movie"),
         (Movie.TV,    "TV Show"),
+
     )
     media_type = forms.ChoiceField(
+
         choices=MEDIA_CHOICES,
         initial=Movie.MOVIE,
         label="Media type",
+
     )
 
 
-# Registration form
+# Registration form for user sign-up
 class RegisterForm(forms.ModelForm):
 
+    """
+    Wraps the built‑in User model to collect username / email / password.
+    """
+
     username = forms.CharField(
+
         max_length=150,
+
         widget=forms.TextInput(attrs={'class': 'form-control'})
+
     )
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     # User class which takes username, email, and password
     class Meta:
 
         model = User
+
         fields = ['username', 'email', 'password']
 
-# Log-in form
+# Log-in form that swaps BootStrap styled widgets
 class LoginForm(AuthenticationForm):
 
     username = forms.CharField(
+
         widget=forms.TextInput(attrs={'class': 'form-control'}),
+
         label="Username"
+
     )
     password = forms.CharField(
+
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+
         label="Password"
+
     )

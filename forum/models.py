@@ -3,39 +3,49 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.utils.text import slugify
 
-User = get_user_model()
+User = get_user_model()         # Custom auth user model
 
+# Class for categories in the forum
 class Category(models.Model):
+
     name        = models.CharField(max_length=60, unique=True)
     description = models.CharField(max_length=255, blank=True)
-    position    = models.PositiveSmallIntegerField(default=0)
+    position    = models.PositiveSmallIntegerField(default=0)       # A manual sort
 
     class Meta:
+
         ordering = ("position",)
 
     def __str__(self):
+
         return self.name
 
-
+# the board inside a category
 class Forum(models.Model):
-    category    = models.ForeignKey(Category, related_name="forums",
-                                    on_delete=models.CASCADE)
+
+    category    = models.ForeignKey(Category, related_name="forums", on_delete=models.CASCADE)
     name        = models.CharField(max_length=80)
     slug        = models.SlugField(max_length=90, unique=True, blank=True)
     blurb       = models.CharField(max_length=255, blank=True)
     position    = models.PositiveSmallIntegerField(default=0)
+
+    # Counters for quick display
     topic_count = models.PositiveIntegerField(default=0)
     post_count  = models.PositiveIntegerField(default=0)
 
+    # Points to most recent post
     last_post = models.ForeignKey(
+
         "Post", null=True, blank=True,
         on_delete=models.SET_NULL,
         related_name="+"
+
     )
 
     class Meta:
         ordering = ("position",)
 
+    # Auto-generates slug once
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
@@ -44,10 +54,10 @@ class Forum(models.Model):
     def __str__(self):
         return self.name
 
-
+# Topic thread inside a forum
 class Topic(models.Model):
-    forum       = models.ForeignKey(Forum, related_name="topics",
-                                    on_delete=models.CASCADE)
+
+    forum       = models.ForeignKey(Forum, related_name="topics", on_delete=models.CASCADE)
     title       = models.CharField(max_length=140)
     slug        = models.SlugField(max_length=150, blank=True)
     starter     = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -59,27 +69,33 @@ class Topic(models.Model):
     locked      = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ("-pinned", "-updated_at")
+        ordering = ("-pinned", "-updated_at")       # Pinned first, then the newest
 
     def save(self, *args, **kwargs):
+
         if not self.slug:
+
             self.slug = slugify(self.title)
+
         super().save(*args, **kwargs)
 
     def __str__(self):
+
         return self.title
 
-
+# Post message inside a topic
 class Post(models.Model):
-    topic       = models.ForeignKey(Topic, related_name="posts",
-                                    on_delete=models.CASCADE)
+
+    topic       = models.ForeignKey(Topic, related_name="posts", on_delete=models.CASCADE)
     author      = models.ForeignKey(User, on_delete=models.CASCADE)
     message     = models.TextField(max_length=10_000)
     created_at  = models.DateTimeField(default=timezone.now)
     edited_at   = models.DateTimeField(null=True, blank=True)
 
     class Meta:
-        ordering = ("created_at",)
+        ordering = ("created_at",)      # Chronological order inside a topic
 
     def __str__(self):
+
+        # Provides a preview of the first 40 characters
         return f"{self.author}: {self.message[:40]}"
