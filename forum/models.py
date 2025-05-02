@@ -20,7 +20,7 @@ class Category(models.Model):
 
         return self.name
 
-# the board inside a category
+# The board inside a category
 class Forum(models.Model):
 
     category    = models.ForeignKey(Category, related_name="forums", on_delete=models.CASCADE)

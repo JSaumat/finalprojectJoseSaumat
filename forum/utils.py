@@ -6,14 +6,17 @@ def bump_counters(post: Post):
     Recalculate reply_count, view_count, post_count, and last-post pointers
     after inserting a new Post.
     """
-    topic = post.topic
-    forum = topic.forum
+    topic = post.topic      # Thread the post belongs to
+    forum = topic.forum     # Board the thread belongs to
 
+    # Topic‑level counters
+    # reply_count excludes the first post (hence −1)
     topic.reply_count = topic.posts.count() - 1
-    topic.updated_at  = post.created_at
+    topic.updated_at  = post.created_at     # bumps "last activity" timestamp
     topic.save(update_fields=["reply_count", "updated_at"])
 
-    forum.topic_count = forum.topics.count()
+    # Forum‑level counters
+    forum.topic_count = forum.topics.count()        # Total threads
     forum.post_count  = Post.objects.filter(topic__forum=forum).count()
-    forum.last_post   = post
+    forum.last_post   = post                        # Newest overall
     forum.save(update_fields=["topic_count", "post_count", "last_post"])

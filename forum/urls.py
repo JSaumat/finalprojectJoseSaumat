@@ -3,6 +3,7 @@ from . import views
 
 app_name = "forum"
 
+# URLS for the forum
 urlpatterns = [
     path("",                     views.index,          name="index"),
     path("<slug:forum>/",        views.TopicList.as_view(), name="board"),
