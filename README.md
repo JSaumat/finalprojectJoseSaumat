@@ -2,14 +2,14 @@
 
 ### INF601 - Advanced Programming in Python
 ### Jose Saumat
-### Mini Project 4
+### Final Project
 
 
 # Mini Project 4
 
 ## Description
 
-This project will be using a combination of Django, BootStrap, HTML/Jinja, and CSS to create a mini website.
+This project will be combine ideas found in miniproject 3 and 4, into a fully functioning community website/app.
 
 ## Getting Started
 
@@ -39,7 +39,7 @@ B. This will apply the migrations
 python manage.py migrate
 ```
 
-C. This will create the administrator login for your /admin side of the project
+C. This will create the administrator login for your /admin side of the app
 ```
 python manage.py createsuperuser
 ```

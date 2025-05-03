@@ -1,8 +1,11 @@
 {% extends "movies/base.html" %}
 {% load humanize %}         <!-- gives intcomma / naturaltime filters -->
+<!-- Block/Tab Title -->
+{% block title %}Sam's Picks - Forum Main{% endblock %}
 
 <!-- Forum landing page -->
 {% block content %}
+
 <h1 class="mb-4">Community Forums</h1>
 
 <!-- Loops through every category in the forum -->
