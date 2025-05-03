@@ -33,10 +33,26 @@ admin.site.index_title = "Welcome to the Sam's Picks Management Area"
 #
 #     search_fields = ('title',)
 
+# Controls the information visible in the /admin page
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
+
+    """
+        Custom admin for the Movie / TV‑show model.
+
+        * list_display — columns visible in the changelist:
+            • title        – movie / show title
+            • media_type   – "movie" or "tv"
+            • likes_raw    – raw like count   (property on the model)
+            • dislikes_raw – raw dislike count
+            • net_likes    – computed below = likes − dislikes
+        """
+
+
     list_display = ("title", "media_type", "likes_raw", "dislikes_raw", "net_likes")
 
     def net_likes(self, obj):
-        return obj.likes
+        return obj.likes        # positive, negative, or zero likes
+
+    # Column header text
     net_likes.short_description = "Net Likes"

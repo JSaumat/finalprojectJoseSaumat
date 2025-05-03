@@ -1,5 +1,9 @@
 {% extends "movies/base.html" %}
+
+<!-- New topic view -->
 {% block content %}
+
+<!-- Breadcrumbs: Forums > Board > New Topic -->
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'forum:index' %}">Forums</a></li>
@@ -11,6 +15,7 @@
 
 <h2>Start a new topic in {{ board.name }}</h2>
 
+<!-- New topic post form -->
 <form method="post">
   {% csrf_token %}
   {{ t_form.as_p }}

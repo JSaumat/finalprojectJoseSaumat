@@ -1,6 +1,10 @@
 {% extends "movies/base.html" %}
 {% load humanize %}
+
+<!-- Topic detail page -->
 {% block content %}
+
+<!-- Breadcrumbs: forums > board > topic -->
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'forum:index' %}">Forums</a></li>
@@ -13,22 +17,29 @@
 
 <h2>{{ object.title }}</h2>
 
+<!-- All posts within this topic -->
 {% for post in object.posts.all %}
   <div class="card mb-3">
     <div class="card-body">
+
+        <!-- Edit/Delete buttons only available to author or staff -->
         {% if user == post.author or user.is_staff %}
         <a href="{% url 'forum:post_edit' post.pk %}"
         class="btn btn-sm btn-outline-secondary float-end">Edit</a>
+
         <a href="{% url 'forum:post_delete' post.pk %}"
         class="btn btn-sm btn-outline-danger float-end"
         onclick="return confirm('Delete this post?');">Delete</a>
         {% endif %}
+
+      <!-- Post body -->
       <p>{{ post.message|linebreaks }}</p>
 
       <footer class="blockquote-footer">
         {{ post.author }} • {{ post.created_at|naturaltime }}
       </footer>
 
+        <!-- Last edited timestamp -->
         {% if post.edited_at %}
         <div class="text-muted small">
           Last edited {{ post.edited_at|naturaltime }}
@@ -39,9 +50,9 @@
   </div>
 {% endfor %}
 
-    <!-- creates a horizontal line that acts a break -->
-<hr>
+<hr>    <!-- creates a horizontal line that acts a break -->
 
+<!-- Reply form / login prompt -->
 {% if user.is_authenticated %}
   <h5 class="mb-3">Reply</h5>
   <form method="post" action="{% url 'forum:reply' object.pk %}">

@@ -1,5 +1,9 @@
 {% extends "movies/base.html" %}
+
+<!-- Post-edit view -->
 {% block content %}
+
+<!-- Breadcrumbs: forum > board > topic > edit -->
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{% url 'forum:index' %}">Forums</a></li>
@@ -17,12 +21,15 @@
   </ol>
 </nav>
 
+<!-- Edit post form -->
 <h2>Edit your post</h2>
 
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
   <button class="btn btn-success">Save changes</button>
+
+  <!-- Cancel back to topic page without saving -->
   <a class="btn btn-secondary"
      href="{% url 'forum:topic' object.topic.forum.slug object.topic.pk object.topic.slug %}">
      Cancel
