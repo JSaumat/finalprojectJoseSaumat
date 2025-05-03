@@ -6,7 +6,9 @@
 
 <h2 class="mb-4">Search results for “{{ query }}”</h2>
 
+<!-- Results list if any come back -->
 {% if results %}
+
   <!-- Revised result list with poster + badge -->
   <ul class="list-group">
     {% for item in results %}
@@ -15,6 +17,7 @@
           <img src="{{ item.poster }}" width="55" height="82" class="rounded">
         {% endif %}
 
+        <!-- title, year, media‑type badge -->
         <span>
           <strong>{{ item.title }}</strong>
           {% if item.year %} ({{ item.year }}){% endif %}
@@ -25,10 +28,14 @@
             <span class="badge bg-secondary ms-2">Movie</span>
           {% endif %}
         </span>
+
       </li>
     {% endfor %}
   </ul>
+
 {% else %}
+
+  <!-- Fallback incase the API returned no hits -->
   <p>No results.</p>
 {% endif %}
 
