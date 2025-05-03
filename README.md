@@ -5,7 +5,7 @@
 ### Final Project
 
 
-# Mini Project 4
+# Final Project 4
 
 ## Description
 
@@ -13,7 +13,7 @@ This project will be combine ideas found in miniproject 3 and 4, into a fully fu
 
 ## Getting Started
 
-First clone the repository into your preferred IDE. Make sure to also create a virtual environment for the project if 
+First, clone the repository into your preferred IDE. Make sure to also create a virtual environment for the project if 
 your IDE does not automatically create one for you.
 
 ### Dependencies
