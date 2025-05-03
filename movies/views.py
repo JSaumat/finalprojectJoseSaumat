@@ -452,7 +452,7 @@ def search_media(request):
         media_type = request.POST["media_type"]
         obj = import_by_id(tmdb_id, media_type)
         message = (
-            f"{obj.get_media_type_display()} “{obj.title}” imported!"
+            f"{obj.get_media_type_display()} “{obj.title}” has been successfully added for voting!"
             if obj else "Import failed."
 
         )

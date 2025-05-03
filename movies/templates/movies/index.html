@@ -1,19 +1,26 @@
 {% extends "movies/base.html" %}
 
+<!-- Block/Tab Title -->
 {% block title %}Sam's Picks: Home{% endblock %}
 
 {% block content %}
+<!-- Page title -->
+<h1 class="mb-3 text-center">Sam's Picks 🎬</h1>
+
+    <br><br>
+
+<!-- Main page greeting -->
 <p>
   Welcome to Sam's Picks!<br><br>
 
     If you are searching for a great movie or TV show to watch, look no further than this community. Below are my personal favorite movies and TV shows.
-    If you have already seen these, I would recommend checking our leaderboard. There you will find the communities top 10 movies and TV shows, as well as others
+    If you have already seen these, I would recommend checking our leaderboard. There you will find the communities top 10 movies and TV shows, as well as other options
     not quite in the top 10, but recommended by the community nonetheless.<br><br>
 
     Each movie card has a link to a trailer below, and on the leaderboard as well for anything in the top 10. You can also check out the forum for more movie and
-    TV show recommendations from community members or make a request for a recommendation<br><br>
+    TV show recommendations from community members or make a request for a recommendation.<br><br>
 
-    Each user must be registered and logged-in to vote or add a movie or TV show to the voting page. Each user can view the forums without being logged-in. However,
+    Each user must be registered and logged-in to vote, or add a movie/TV show to the voting page. Each user can view the forums without being logged-in. However,
     in order to post or reply, you must be registered and logged in as well.<br><br>
 
     Once again welcome, and I hope you have a great time!<br><br>
@@ -21,6 +28,9 @@
     -Sam
 </p>
 
+    <br><br>
+
+<!-- Favorite movie list passed in from the view "movies" -->
 <div class="center-title">
   <h2>Sam's Top&nbsp;10 Favorite Movies</h2>
 </div>
@@ -38,6 +48,7 @@
   {% endfor %}
 </div>
 
+<!-- Favorite TV Shows list passed in from the view "shows" -->
 <div class="center-title mt-5">
   <h2>Sam's Top&nbsp;10 TV&nbsp;Shows</h2>
 </div>

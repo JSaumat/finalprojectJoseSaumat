@@ -22,3 +22,6 @@ class MoviesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
 
     name = 'movies'
+
+    # This is the label that appears in the admin sidebar
+    verbose_name = "Movies / TV Shows"

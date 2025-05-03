@@ -1,11 +1,11 @@
 <!-- Add Media (movie / TV) – search + import screen -->
 {% extends "movies/base.html" %}
-
-{% block title %}Import Movie / TV{% endblock %}
+<!-- Block/Tab Title -->
+{% block title %}Sam's Picks: Add Movie / TV For Voting{% endblock %}
 
 {% block content %}
 
-<h2 class="mb-4">Import Movie or TV Show</h2>
+<h2 class="mb-4">Add Movie / TV For Voting</h2>
 
 <!-- Optional flash message from the view (success / error) -->
 {% if message %}
@@ -82,7 +82,7 @@
 
           <input type="hidden" name="media_type" value="{{ item.media_type }}">
 
-          <button class="btn btn-sm btn-success">Import</button>
+          <button class="btn btn-sm btn-success">Add For Voting</button>
 
         </form>
 

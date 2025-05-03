@@ -26,9 +26,17 @@ admin.site.site_title = "Sam's Picks Admin Portal"
 admin.site.index_title = "Welcome to the Sam's Picks Management Area"
 
 # Register your models here.
+# @admin.register(Movie)
+# class MovieAdmin(admin.ModelAdmin):
+#
+#     list_display = ('title', 'release_date', 'vote_count')
+#
+#     search_fields = ('title',)
+
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
+    list_display = ("title", "media_type", "likes_raw", "dislikes_raw", "net_likes")
 
-    list_display = ('title', 'release_date', 'vote_count')
-
-    search_fields = ('title',)
+    def net_likes(self, obj):
+        return obj.likes
+    net_likes.short_description = "Net Likes"

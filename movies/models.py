@@ -63,6 +63,8 @@ class Movie(models.Model):
     class Meta:
 
         unique_together = ("tmdb_id", "media_type")  # one vote per user per movie
+        verbose_name = "Media content"  # label in the change form
+        verbose_name_plural = "Media content"  # label in the sidebar
 
     # Defines how the object (movie or tv show) appears
     def __str__(self):
@@ -107,6 +109,17 @@ class Movie(models.Model):
         obj = self.votes.filter(user=user).first()
 
         return obj.value if obj else 0
+
+    # new helpers
+    @property
+    def likes_raw(self):
+        """How many users currently have 👍 on this title."""
+        return self.votes.filter(value=MovieVote.LIKE).count()
+
+    @property
+    def dislikes_raw(self):
+        """How many users currently have 👎 on this title."""
+        return self.votes.filter(value=MovieVote.DISLIKE).count()
 
     # Helps Django to enforce uniqueness (Duplicate)
     # class Meta:

@@ -51,17 +51,16 @@ def search_tmdb_multi(query: str, limit: int = 6):
     def remap(item, media):
 
         title = item["title"] if media == "movie" else item["name"]
-        year  = (item.get("release_date") or item.get("first_air_date") or "")[:4]
+        year = (item.get("release_date") or item.get("first_air_date") or "")[:4]
         poster = item["poster_path"]
         poster_url = f"{IMG_CDN}{poster}" if poster else None
 
         return {
-
+            "id": item["id"],  # ←  add this line
             "title": title,
-            "year":  year,
+            "year": year,
             "poster": poster_url,
-            "media_type": media,   # movie | tv
-
+            "media_type": media,  # movie | tv
         }
 
     # Merged list that uses lambda, which utilizes an anonymous one-line function

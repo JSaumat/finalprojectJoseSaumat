@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'movies',
+    'movies.apps.MoviesConfig',     # Changes movies to movies/tv shows in the admin panel
     'forum',
 ]
 
