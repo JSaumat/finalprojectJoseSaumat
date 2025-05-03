@@ -23,7 +23,7 @@ Step 1: Install required packages using the requirements.txt file. Copy and past
 ```
 pip install -r requirements.txt
 ```
-Step 2: Follow the steps below in order to initialize the SQL database. Create a Super User. Copy and paste the code below into the terminal.
+Step 2: Follow the steps below to initialize the SQL database. Create a Super User. Copy and paste the code below into the terminal.
 
 Keep in mind that when you create the super user, when you get to the password part, it will not show you
 the password you are typing in. It will appear blank. However, it is actually taking in your password.
@@ -62,13 +62,16 @@ or paste the line below into a browser.
 ```
 http://127.0.0.1:8000
 ```
-Step 5: Set up the site for regular users
+Step 5: Set up the site voting
 
-When you first access the site, the Home page movie gallery will not have any movies to vote on. You will need to log in as the super user/admin, then click on 'Add Movie' in the navigation bar. This will take you to a page that says 'Import Movie'. Type in the name of
-a favorite movie you have seen, and then click on 'Import'. This will add a movie that can be voted on by all users on the home page.
+You will want to add a few movies or TV shows to the voting page. To do this, go to the Add Movie/TV Show tab and in the search bar enter
+some of your favorite TV shows or movies. Then click the add button. You will get a prompt saying that your choice was added to the list.
+This will allow you and the users to use the voting features which make the leaderboard work.
 
-If you need ideas, you can use the search bar on the far right of the navigation bar. This search bar allows all users to look up
-movies using the TMDB API. 
+Step 6: Set up the forum
+
+Set up the forum. As an admin, you can add categories and forums for your users. You want to add those in that specific order. You can then
+create topics or leave that for your users to start.
 
 ### Output
 
@@ -76,17 +79,28 @@ Once everything is set up...
 
 For The Regular User:
 
-This website should take you to the home page where you should be able to vote on movies. In order to vote, you must register and be 
-logged in. If you try to vote before you are logged in, a modal will appear asking you to log in for voting. The site also contains a 
-fully functional registration, log in, and logged out page. You can also read the About page which contains a brief description of the 
-site along with credit for TMDB's use of their API, and it doubles as a link to their site. The search bar in the navigation menu allows 
-you to use TMDB's API to search for movies in their API without adding them to the home page for voting.
+This website should start with an age verification modal. If you are not 18, it will take you to Google.com. If you are 18, it will take you to the Home Page.
+
+On the home page where you should be able to view my top 10 favorite movies and TV shows. 
+
+You can also read the About page which contains a brief description of the site along with credit for TMDB's use of their API, and it doubles as a link to their site.
+
+To vote or add a movie for voting, you must register and be logged in. If you try to vote before you are logged in, a modal will appear asking you to log in for voting. 
+
+The site also contains a fully functional registration, log in, and a page that confirms you are logged out page. 
+
+Anyone may use the quick search on the navigation bar that uses TMDB's database to search for movies and TV shows.
+
+You are welcome to read the forums without logging in, however, to reply or post in the forum you will need to log in.
 
 For Admin User:
 
-You have access to everything above, but you also gain access to the Add Movie and Admin pages. The Add Movie page will allow you
-to add movies that the regular users can vote on. The Admin Panel page will let you see a list of movies, the users, and set access 
-for different groups.
+You have access to everything above, but you can also remove movies/tv shows from the voting list. 
+
+You can also edit or remove user posts or topics in the forums.
+
+You can also create a new categories and topics for the forum users.
+
 
 ## Authors
 
