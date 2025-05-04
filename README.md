@@ -51,9 +51,6 @@ Step 3: Run the program. Copy and paste the code below into the terminal.
 ```
 python manage.py runserver
 
-or
-
-Click the Play button in your IDE.
 ```
 
 Step 4: In your terminal you should now see a hyperlink with the address below. Click that link to launch the website in browser,
