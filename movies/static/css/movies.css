@@ -126,7 +126,8 @@ body {
     padding: 6px 14px;
     font-weight: 500;
 }
-    /* Navigation base, branding, and buttons alignment */
+
+/* Navigation base, branding, and buttons alignment */
 .navbar-nav .nav-item {
     margin-bottom: 0 !important; /* ensure items align horizontally */
 }
@@ -144,6 +145,19 @@ body {
   text-align:center;
   text-decoration:none;
   color:inherit;    /* keep default text colour */
+  position:relative;                 /* so the shadow sits above neighbours */
+  display:block;                     /* make the <a> behave like a card   */
+  border-radius:.75rem;      /* rounded corners on the whole tile   */
+  overflow:hidden;             /* hide poster corners outside radius  */
+  transition:transform .3s ease;     /* same timing as voting cards        */
+  will-change:transform;
+}
+
+/* Controls movie card hover styling on home page */
+.movie-tile:hover{
+  transform:scale(1.03);             /* identical zoom */
+  z-index:2;
+  box-shadow:0 4px 20px rgba(0,0,0,.20);
 }
 
 /* Poster thumbnails inside the grid */
