@@ -87,8 +87,7 @@ You may access the following:
 
 - About page: contains a brief description of the site along with credit for TMDB's use of their API with their logo, which doubles as a link to their site.
 
-- Movie Voting page: Shows community votes. To vote or add a movie for voting, you must register and be logged in. If you try to vote before you are logged in, 
-a modal will appear asking you to log in for voting.
+- Movie Voting page: Shows community votes. To vote or add a movie for voting, you must register and be logged in. If you try to vote before you are logged in, a modal will appear asking you to log in for voting.
 
 - Leaderboard page: Shows the communities top 10 favorite movies and TV shows. Also displays other titles that have likes, but are not in the top 10 of either category.
 
